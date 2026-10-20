@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>hc_weather</id>
+    <name>Weather</name>
+    <namespace>HcWeather</namespace>
+    <summary>Modern weather dashboard with locations, near-term forecast and solar information.</summary>
+    <description><![CDATA[Weather for Nextcloud 35 provides current conditions, hourly and daily forecasts,
+sunrise and sunset, device and saved locations, and a weather map with animated radar,
+wind forecasts at 10/80/120/180 m, storm potential and CHMI ALADIN forecasts. The map supports touch pan and
+zoom, an optional selected point and a compact menu on mobile devices. Map backgrounds,
+location services and layout use the required Shared App Core 0.18.1 or newer.
+The Android widget remains the compact overview supplied by Weather.]]></description>
+    <version>1.0.0</version>
+    <licence>AGPL-3.0-or-later</licence>
+    <author homepage="https://github.com/hacesoft">hacesoft</author>
+    <category>tools</category>
+    <category>dashboard</category>
+    <website>https://github.com/hacesoft/Weather</website>
+    <bugs>https://github.com/hacesoft/Weather/issues</bugs>
+    <repository>https://github.com/hacesoft/Weather</repository>
+    <dependencies>
+        <nextcloud min-version="35" max-version="35"/>
+        <php min-version="8.3"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Weather</name>
+            <namespace>HcWeather</namespace>
+            <route>hc_weather.page.index</route>
+            <order>30</order>
+            <icon>app.svg</icon>
+        </navigation>
+    </navigations>
+</info>

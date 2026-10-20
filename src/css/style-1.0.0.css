@@ -1,0 +1,1877 @@
+/* HC Weather 1.0.0 – Shared App Core location follow + unified map UI */
+.wp-app,.wp-app *,.wp-app *::before,.wp-app *::after{box-sizing:border-box}
+.wp-app{--wp-page-pad:clamp(8px,1.6vw,22px);--wp-vv-height:100dvh;--wp-vv-width:100vw;--wp-vv-top:0px;--wp-vv-left:0px;width:100%;max-width:none;min-width:0;min-height:0;height:calc(var(--wp-vv-height,100dvh) - 50px);max-height:calc(100dvh - 50px);overflow:auto;padding:max(var(--wp-page-pad),env(safe-area-inset-top)) max(var(--wp-page-pad),env(safe-area-inset-right)) max(calc(var(--wp-page-pad) + 18px),env(safe-area-inset-bottom)) max(var(--wp-page-pad),env(safe-area-inset-left));margin:0;scrollbar-gutter:stable;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.wp-app,.wp-app .wp-main,.wp-app .wp-view,.wp-app .wp-section,.wp-app .wp-card,.wp-app .wp-map-section,.wp-app .wp-forecast-board{min-width:0;min-height:0}
+
+.wp-app img,.wp-app svg,.wp-app video{max-width:100%;height:auto}
+.wp-app canvas{max-width:100%}
+.wp-app input:not([type=checkbox]):not([type=radio]):not([type=range]),.wp-app select,.wp-app textarea{max-width:100%;min-width:0}
+.wp-app button,.wp-app input,.wp-app select,.wp-app textarea{font:inherit}
+.wp-app :where(.wp-header,.wp-brand,.wp-header-actions,.wp-tabs,.wp-main,.wp-view,.wp-section,.wp-card,.wp-hero,.wp-hero-main,.wp-current-text,.wp-current-top,.wp-current-meta,.wp-grid-two,.wp-map-toolbar,.wp-map-ranges,.wp-map-tools,.wp-map-timeline,.wp-settings-body,.wp-settings-section,.wp-admin-grid,.wp-checkbox-grid,.wp-modal,.wp-modal-title,.wp-modal-footer,.wp-saved-row){min-width:0;min-height:0}
+.wp-app .wp-break{overflow-wrap:anywhere;word-break:break-word}
+.wp-app .wp-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px}
+.wp-app .wp-brand{display:flex;align-items:center;gap:10px;min-width:0}.wp-app .wp-app-icon{width:42px;height:42px;flex:0 0 auto}.wp-app .wp-brand>div{min-width:0}.wp-app .wp-brand-title{display:flex;align-items:center;gap:8px}.wp-app .wp-brand h2{font-size:26px;margin:0}.wp-app .wp-brand p{margin:1px 0 0;opacity:.68;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wp-app .wp-version-badge,.wp-app .wp-version-inline{font-size:11px;padding:3px 7px;border-radius:999px;background:var(--color-background-hover);opacity:.82}
+.wp-app .wp-header-actions{display:flex;gap:7px;flex:0 0 auto}.wp-app .wp-header-actions button,.wp-app .wp-tabs button,.wp-app .wp-map-ranges button,.wp-app .wp-map-tools button,.wp-app .wp-wind-levels button,.wp-app .wp-map-timeline button,.wp-app .wp-settings-tabs button{min-height:34px!important;padding:6px 11px!important;border-radius:10px!important}
+.wp-app .wp-tabs{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:6px 0 10px;scrollbar-width:none}.wp-app .wp-tabs::-webkit-scrollbar{display:none}.wp-app .wp-tabs button{white-space:nowrap;border-radius:999px!important}.wp-app .wp-tabs button.active,.wp-app .wp-map-ranges button.active,.wp-app .wp-wind-levels button.active,.wp-app .wp-settings-tabs button.active{background:var(--color-primary-element)!important;color:var(--color-primary-element-text)!important}
+.wp-app .wp-main{display:grid;gap:10px}.wp-app .wp-view{display:grid;gap:10px}.wp-app .wp-view[hidden]{display:none!important}
+.wp-app .wp-state-card,.wp-app .wp-section,.wp-app .wp-card,.wp-app .wp-hero{border:1px solid var(--color-border);background:var(--color-main-background);border-radius:15px}.wp-app .wp-state-card{padding:20px;text-align:center}.wp-app .wp-error{color:var(--color-error);border-color:var(--color-error)}
+.wp-app .wp-section,.wp-app .wp-card{padding:clamp(11px,1.2vw,16px)}.wp-app .wp-section-title{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}.wp-app .wp-section-title h3{font-size:18px;margin:0}.wp-app .wp-section-title span{opacity:.62;font-size:12px}
+/* Compact hero */
+.wp-app .wp-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,280px);align-items:center;gap:18px;min-height:178px;padding:clamp(14px,1.8vw,22px);background:linear-gradient(135deg,color-mix(in srgb,var(--color-primary-element) 7%,var(--color-main-background)),var(--color-main-background))}.wp-app .wp-hero-main{display:flex;align-items:center;gap:clamp(12px,2vw,24px);min-width:0}.wp-app .wp-weather-icon{line-height:1;filter:drop-shadow(0 5px 10px rgba(0,0,0,.12))}.wp-app .wp-weather-icon-hero{font-size:clamp(64px,7vw,108px)}.wp-app .wp-current-text{min-width:0}.wp-app .wp-current-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.wp-app .wp-current-top strong{font-size:clamp(44px,5.2vw,72px);font-weight:500;letter-spacing:-3px}.wp-app .wp-current-top span{font-size:clamp(22px,2.2vw,32px);font-weight:600}.wp-app .wp-muted{opacity:.66}.wp-app .wp-current-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;min-width:0}.wp-app .wp-current-meta span{padding:8px 9px;border-radius:9px;background:var(--color-background-hover);white-space:nowrap;font-size:13px}
+/* Forecast board – dense, connected like a timeline */
+.wp-app .wp-forecast-board{overflow:hidden}.wp-app .wp-temperature-trend-wrap{padding:2px 6px 0}.wp-app .wp-trend-head{display:flex;justify-content:space-between;gap:8px;font-size:12px}.wp-app .wp-temperature-trend{display:block;width:100%;height:72px;overflow:visible}.wp-app .wp-forecast-strip{display:grid;width:100%;min-width:0;overflow:hidden}.wp-app .wp-hourly-compact{grid-template-columns:repeat(11,minmax(0,1fr));border:1px solid var(--color-border);border-radius:12px;overflow:hidden}.wp-app .wp-hour-mini{min-width:0;padding:7px 4px 8px;display:grid;justify-items:center;gap:2px;text-align:center;background:var(--color-background-hover);border-right:1px solid var(--color-border)}.wp-app .wp-hour-mini:last-child{border-right:0}.wp-app .wp-hour-mini time{font-size:11px;opacity:.7}.wp-app .wp-hour-mini .wp-mini-icon{font-size:25px;line-height:1.15}.wp-app .wp-hour-mini strong{font-size:16px}.wp-app .wp-hour-mini small{font-size:10px;opacity:.65;white-space:nowrap}.wp-app .wp-strip-divider{height:8px}.wp-app .wp-daily-compact{grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--color-border);border-radius:12px;overflow:hidden}.wp-app .wp-day-mini{min-width:0;padding:8px 5px;display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto auto;justify-content:center;align-items:center;column-gap:6px;text-align:center;background:color-mix(in srgb,var(--color-background-hover) 82%,transparent);border-right:1px solid var(--color-border)}.wp-app .wp-day-mini:last-child{border-right:0}.wp-app .wp-day-mini time{grid-column:1/3;font-size:11px;font-weight:700}.wp-app .wp-day-mini .wp-mini-icon{font-size:27px}.wp-app .wp-day-mini strong{font-size:15px}.wp-app .wp-day-mini small{grid-column:1/3;font-size:10px;opacity:.66;white-space:nowrap}
+/* Sun / now */
+.wp-app .wp-grid-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wp-app .wp-sun-line{display:flex;align-items:center;gap:8px;font-size:23px;padding:9px 2px}.wp-app .wp-sun-track{height:6px;border-radius:8px;background:linear-gradient(90deg,var(--color-warning),var(--color-primary-element));flex:1;position:relative}.wp-app .wp-sun-track i{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;transform:translate(-50%,-50%);background:#ffd84d;box-shadow:0 0 10px rgba(255,216,77,.7)}.wp-app .wp-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.wp-app .wp-detail{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:7px;padding:8px;border-radius:9px;background:var(--color-background-hover);min-width:0}.wp-app .wp-detail>span{grid-row:1/3;font-size:21px;align-self:center}.wp-app .wp-detail small{opacity:.65;font-size:11px}.wp-app .wp-detail strong{font-size:13px;overflow-wrap:anywhere}
+/* Maps */
+.wp-app .wp-map-section{padding:clamp(10px,1.3vw,16px)}.wp-app .wp-map-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}.wp-app .wp-map-ranges,.wp-app .wp-map-tools{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.wp-app .wp-map-ranges button{border-radius:999px!important}.wp-app .wp-map-tools button{width:36px;padding:4px!important;font-size:18px}.wp-app .wp-map-tools select{height:34px;max-width:130px}.wp-app .wp-wind-levels{display:flex;align-items:center;gap:5px;overflow-x:auto;padding:0 0 7px;scrollbar-width:thin}.wp-app .wp-wind-levels-label{font-size:12px;opacity:.68;flex:0 0 auto}.wp-app .wp-wind-levels button{display:inline-flex!important;align-items:center;gap:5px;flex:0 0 auto;border-radius:999px!important}.wp-app .wp-wind-levels button i{width:9px;height:9px;border-radius:50%;background:var(--level-color)}.wp-app .wp-map-timeline{display:grid;grid-template-columns:auto minmax(80px,1fr) minmax(120px,auto);align-items:center;gap:8px;margin-bottom:8px}.wp-app .wp-map-timeline input{width:100%;min-width:0}.wp-app .wp-map-timeline>span{font-size:11px;text-align:right}.wp-app .wp-weather-map{position:relative;width:100%;height:clamp(220px,min(46vw,46dvh),500px);overflow:hidden;border-radius:12px;background:#b7c9d6;touch-action:none;cursor:grab;user-select:none}.wp-app .wp-weather-map.wp-dragging{cursor:grabbing}.wp-app .wp-map-layer{position:absolute;inset:0;overflow:hidden}.wp-app .wp-map-layer img{position:absolute;width:256px;height:256px;max-width:none;user-select:none;pointer-events:none}.wp-app .wp-map-layer.wp-map-light img{filter:saturate(.72) brightness(1.08)}.wp-app .wp-map-layer.wp-map-dark img{filter:grayscale(.35) brightness(.48) contrast(1.08)}.wp-app .wp-map-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;background:transparent}.wp-app .wp-radar-layer{z-index:2;opacity:.7}.wp-app .wp-location-marker{position:absolute;z-index:6;transform:translate(-50%,-50%);font-size:22px;color:#ef3434;text-shadow:0 0 3px #fff;pointer-events:none}.wp-app .wp-map-legend{position:absolute;left:10px;bottom:10px;z-index:7;display:grid;gap:2px;padding:7px 9px;border-radius:9px;background:color-mix(in srgb,var(--color-main-background) 88%,transparent);backdrop-filter:blur(7px);font-size:12px}.wp-app .wp-map-legend small{opacity:.68}.wp-app .wp-map-hint{position:absolute;right:10px;bottom:10px;z-index:7;padding:5px 8px;border-radius:8px;background:color-mix(in srgb,var(--color-main-background) 82%,transparent);font-size:10px;opacity:.72;pointer-events:none}.wp-app .wp-map-detail-heading{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:9px 0 6px;font-size:12px}.wp-app .wp-map-detail-heading span{opacity:.6}.wp-app .wp-wind-level-legend{display:flex;gap:8px;flex-wrap:wrap}.wp-app .wp-wind-level-legend span{display:inline-flex;align-items:center;gap:4px}.wp-app .wp-wind-level-legend i,.wp-app .wp-legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%}
+.wp-app .wp-wind-current{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px;background:var(--color-background-hover);margin-bottom:6px}.wp-app .wp-wind-arrow{font-size:42px;line-height:1}.wp-app .wp-wind-current>div:last-child{display:grid}.wp-app .wp-wind-current strong{font-size:25px}.wp-app .wp-wind-current span{font-size:11px;opacity:.7}.wp-app .wp-wind-hours,.wp-app .wp-storm-hours{display:flex;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}.wp-app .wp-wind-hours>div,.wp-app .wp-storm-hour{flex:0 0 86px;display:grid;justify-items:center;gap:2px;padding:7px 5px;border-radius:9px;background:var(--color-background-hover);font-size:11px}.wp-app .wp-mini-arrow{font-size:20px}.wp-app .wp-storm-summary{margin-bottom:6px}.wp-app .wp-storm-level{display:flex;align-items:center;gap:10px;padding:9px;border-radius:10px;background:var(--color-background-hover)}.wp-app .wp-storm-level>span{font-size:30px}.wp-app .wp-storm-level>div{display:grid}.wp-app .wp-storm-level strong{font-size:18px}.wp-app .wp-storm-level em{font-style:normal;font-size:11px;opacity:.65}.wp-app .wp-warning-info,.wp-app .wp-admin-warning,.wp-app .wp-active-location-card,.wp-app .wp-admin-current{padding:11px;border-radius:10px;background:var(--color-background-hover);display:grid;gap:3px}
+/* Settings */
+.wp-app .wp-overlay{position:fixed;inset:auto;left:var(--wp-vv-left,0px);top:var(--wp-vv-top,0px);width:var(--wp-vv-width,100vw);height:var(--wp-vv-height,100dvh);z-index:10000;background:rgba(0,0,0,.44);display:flex;align-items:center;justify-content:center;overflow:auto;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));overscroll-behavior:contain;-webkit-overflow-scrolling:touch}.wp-app .wp-overlay[hidden],.wp-app .wp-popover[hidden]{display:none!important}.wp-app .wp-modal{width:min(720px,100%);max-width:100%;max-height:min(780px,calc(var(--wp-vv-height,100dvh) - 16px));display:flex;flex-direction:column;overflow:hidden;background:var(--color-main-background);border-radius:15px;box-shadow:0 14px 48px rgba(0,0,0,.3);padding:14px}.wp-app .wp-modal-title{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex:0 0 auto}.wp-app .wp-modal-title>div{display:grid}.wp-app .wp-modal-title small{opacity:.65;font-size:11px}.wp-app .wp-modal-title button{font-size:22px}.wp-app .wp-settings-tabs{display:flex;gap:6px;padding:9px 0 7px;overflow-x:auto;flex:0 0 auto}.wp-app .wp-settings-body{overflow:auto;min-height:0;padding-right:2px}.wp-app .wp-settings-pane[hidden]{display:none!important}.wp-app .wp-settings-section{padding:12px 0;border-top:1px solid var(--color-border)}.wp-app .wp-settings-section-first{border-top:0}.wp-app .wp-settings-section h3{margin:0 0 7px;font-size:16px}.wp-app .wp-radio{display:flex!important;align-items:flex-start!important;gap:7px;margin:6px 0}.wp-app .wp-radio span{display:grid}.wp-app .wp-radio small{opacity:.62;font-size:11px}.wp-app .wp-location-search-box{margin:8px 0 0 24px}.wp-app .wp-location-search-box.disabled{opacity:.45;pointer-events:none}.wp-app .wp-location-search-box input{width:100%}.wp-app .wp-location-results{display:grid;max-height:170px;overflow:auto;margin-top:5px}.wp-app .wp-location-results button{display:grid!important;text-align:left!important;padding:7px!important}.wp-app .wp-selected-location{display:grid;margin-top:6px;padding:8px;border-radius:8px;background:var(--color-background-hover)}.wp-app .wp-saved-locations{display:grid;gap:4px;margin:6px 0}.wp-app .wp-saved-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px}.wp-app .wp-saved-row button:first-child{text-align:left!important;overflow:hidden;text-overflow:ellipsis}.wp-app .wp-checkbox-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.wp-app .wp-admin-current{margin-bottom:10px}.wp-app .wp-admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.wp-app .wp-admin-grid label{display:grid;gap:3px}.wp-app .wp-modal-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:9px;border-top:1px solid var(--color-border);flex:0 0 auto}.wp-app .wp-about{font-size:11px;opacity:.65}.wp-app .wp-popover{position:fixed;z-index:11000;min-width:0;max-width:calc(var(--wp-vv-width,100vw) - 20px);max-height:min(420px,calc(var(--wp-vv-height,100dvh) - 20px));overflow:auto;display:grid;padding:7px;border:1px solid var(--color-border);border-radius:12px;background:var(--color-main-background);box-shadow:0 10px 34px rgba(0,0,0,.24)}.wp-app .wp-popover button{text-align:left!important;background:transparent!important;border:0!important;padding:8px!important}
+.wp-app.wp-modal-open{overflow:hidden}
+/* Tablet / small notebook */
+@media (max-width:1050px){.wp-app{padding:10px 12px 34px}.wp-app .wp-hero{grid-template-columns:minmax(0,1fr) minmax(160px,220px);min-height:160px}.wp-app .wp-current-meta{grid-template-columns:1fr}.wp-app .wp-weather-map{height:clamp(280px,43vh,430px)}.wp-app .wp-hour-mini{padding-inline:2px}.wp-app .wp-hour-mini small{font-size:9px}.wp-app .wp-day-mini{padding-inline:3px}}
+@media (max-width:760px){.wp-app{--wp-page-pad:8px;height:calc(var(--wp-vv-height,100dvh) - 50px);padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(calc(18px + env(safe-area-inset-bottom)),18px) max(8px,env(safe-area-inset-left))}.wp-app .wp-header-actions button,.wp-app .wp-tabs button,.wp-app .wp-map-ranges button,.wp-app .wp-map-tools button,.wp-app .wp-wind-levels button,.wp-app .wp-map-timeline button,.wp-app .wp-settings-tabs button,.wp-app .wp-modal-footer button,.wp-app .wp-saved-row button,.wp-app .wp-location-results button,.wp-app .wp-popover button{min-height:44px!important}.wp-app .wp-map-tools button{width:44px!important;min-width:44px}.wp-app .wp-header{align-items:flex-start}.wp-app .wp-app-icon{width:36px;height:36px}.wp-app .wp-brand h2{font-size:22px}.wp-app .wp-brand p{font-size:12px;max-width:52vw}.wp-app .wp-header-actions button{font-size:12px;padding:5px 7px!important}.wp-app .wp-tabs{padding-bottom:8px}.wp-app .wp-hero{grid-template-columns:1fr;gap:10px;min-height:auto;padding:12px}.wp-app .wp-hero-main{gap:10px}.wp-app .wp-weather-icon-hero{font-size:62px}.wp-app .wp-current-top strong{font-size:44px}.wp-app .wp-current-top span{font-size:21px}.wp-app .wp-current-meta{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.wp-app .wp-current-meta span{font-size:11px;padding:6px}.wp-app .wp-section,.wp-app .wp-card{padding:10px}.wp-app .wp-section-title h3{font-size:16px}.wp-app .wp-grid-two{grid-template-columns:1fr}.wp-app .wp-temperature-trend{height:60px}.wp-app .wp-hourly-compact,.wp-app .wp-daily-compact{display:flex;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:auto;padding-bottom:7px;border-radius:10px}.wp-app .wp-hour-mini{flex:0 0 72px;min-width:72px;scroll-snap-align:start}.wp-app .wp-day-mini{flex:0 0 104px;min-width:104px;scroll-snap-align:start;border-right:1px solid var(--color-border)}.wp-app .wp-hourly-compact::-webkit-scrollbar,.wp-app .wp-daily-compact::-webkit-scrollbar{height:6px}.wp-app .wp-hourly-compact::-webkit-scrollbar-thumb,.wp-app .wp-daily-compact::-webkit-scrollbar-thumb{background:var(--color-primary-element);border-radius:99px}.wp-app .wp-weather-map{height:clamp(260px,44svh,360px)}.wp-app .wp-map-toolbar{align-items:flex-start}.wp-app .wp-map-ranges{overflow-x:auto;flex-wrap:nowrap;width:100%;padding-bottom:3px}.wp-app .wp-map-ranges button{flex:0 0 auto}.wp-app .wp-map-tools{width:100%;flex-wrap:nowrap}.wp-app .wp-map-tools select{margin-left:auto;min-width:110px}.wp-app .wp-map-timeline{grid-template-columns:auto minmax(60px,1fr);gap:6px}.wp-app .wp-map-timeline>span{grid-column:1/3;text-align:left}.wp-app .wp-map-hint{display:none}.wp-app .wp-map-legend{left:6px;bottom:6px;max-width:calc(100% - 12px)}.wp-app .wp-map-detail-heading{display:grid;gap:2px}.wp-app .wp-checkbox-grid,.wp-app .wp-admin-grid{grid-template-columns:1fr}.wp-app .wp-modal{width:100%;height:auto;max-height:calc(var(--wp-vv-height,100dvh) - 10px);border-radius:12px;padding:10px}.wp-app .wp-modal-footer{position:sticky;bottom:0;background:var(--color-main-background)}.wp-app .wp-location-search-box{margin-left:0}.wp-app .wp-about{display:none}}
+@media (max-width:430px){.wp-app .wp-brand p{max-width:46vw}.wp-app .wp-current-meta{grid-template-columns:1fr 1fr}.wp-app .wp-detail-grid{grid-template-columns:1fr 1fr}.wp-app .wp-weather-map{height:310px}.wp-app .wp-map-tools button{width:34px}.wp-app .wp-wind-current strong{font-size:22px}.wp-app .wp-wind-arrow{font-size:36px}}
+
+@media (max-width:360px){.wp-app{--wp-page-pad:6px}.wp-app .wp-header{gap:6px;flex-wrap:wrap}.wp-app .wp-brand{flex:1 1 100%}.wp-app .wp-header-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.wp-app .wp-brand p{max-width:72vw}.wp-app .wp-current-meta,.wp-app .wp-detail-grid{grid-template-columns:1fr}.wp-app .wp-weather-icon-hero{font-size:52px}.wp-app .wp-current-top strong{font-size:38px}.wp-app .wp-hour-mini{flex-basis:64px;min-width:64px}.wp-app .wp-day-mini{flex-basis:94px;min-width:94px}.wp-app .wp-map-timeline{grid-template-columns:1fr}.wp-app .wp-map-timeline>span{grid-column:auto}.wp-app .wp-map-tools select{min-width:0;flex:1}.wp-app .wp-modal-title small{overflow-wrap:anywhere}}
+@media (max-height:560px),(orientation:landscape) and (max-height:620px){.wp-app{height:calc(var(--wp-vv-height,100dvh) - 50px)}.wp-app .wp-overlay{align-items:flex-start}.wp-app .wp-modal{margin:0 auto;max-height:calc(var(--wp-vv-height,100dvh) - 8px)}.wp-app .wp-weather-map{height:clamp(180px,42dvh,250px)}.wp-app .wp-hero{min-height:auto}.wp-app .wp-weather-icon-hero{font-size:52px}.wp-app .wp-current-top strong{font-size:38px}.wp-app .wp-temperature-trend{height:52px}}
+@media (prefers-reduced-motion:reduce){.wp-app *,.wp-app *::before,.wp-app *::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Dashboard widget: scoped to the WeatherPlus widget root. */
+.wp-widget,.wp-widget *,.wp-widget *::before,.wp-widget *::after{box-sizing:border-box}
+.wp-widget{display:grid;gap:8px;padding:10px;color:inherit!important;text-decoration:none!important;min-width:0;overflow:hidden}
+.wp-widget .wp-widget-top{display:flex;gap:10px;align-items:center;min-width:0}
+.wp-widget .wp-widget-icon{font-size:clamp(42px,12vw,60px);line-height:1;flex:0 0 auto}
+.wp-widget .wp-widget-top>div:last-child{display:grid;min-width:0}
+.wp-widget .wp-widget-top strong{font-size:clamp(28px,8vw,36px);line-height:1.05}
+.wp-widget .wp-widget-top span,.wp-widget .wp-widget-sun,.wp-widget .wp-widget-loading{overflow-wrap:anywhere}
+.wp-widget .wp-widget-near{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;min-width:0}
+.wp-widget .wp-widget-near>div{display:grid;justify-items:center;gap:1px;min-width:0;padding:5px 3px;border-radius:8px;background:var(--color-background-hover)}
+.wp-widget .wp-widget-near b{font-size:clamp(18px,6vw,26px)}
+.wp-widget .wp-widget-near small{font-size:10px;white-space:nowrap}
+.wp-widget .wp-widget-sun{font-size:12px;opacity:.72}
+.wp-widget .wp-widget-loading{opacity:.65}
+@media(max-width:360px){.wp-widget{padding:7px;gap:6px}.wp-widget .wp-widget-top{gap:7px}.wp-widget .wp-widget-near{gap:3px}.wp-widget .wp-widget-near>div{padding-inline:2px}}
+
+/* v0.11.0 desktop-density and information-layout refinements */
+@media (min-width:1200px){
+.wp-app .wp-header{display:grid;grid-template-columns:minmax(240px,1fr) auto minmax(240px,1fr);align-items:center;gap:14px;padding-bottom:8px}
+.wp-app .wp-header .wp-tabs{justify-self:center;margin:0;padding:0;overflow:visible}
+.wp-app .wp-header-actions{justify-self:end}
+.wp-app .wp-hero{grid-template-columns:minmax(300px,.72fr) minmax(620px,1.28fr);min-height:clamp(176px,22dvh,230px);padding:clamp(12px,1.2vw,20px)}
+.wp-app .wp-hero-side{display:grid;grid-template-columns:minmax(150px,.42fr) minmax(430px,1fr);gap:10px;align-items:stretch;min-width:0}
+.wp-app .wp-hero-extras{display:grid;grid-template-columns:1fr 1.15fr;gap:10px;min-width:0}
+.wp-app .wp-hero-extra{padding:9px;border-radius:11px;background:var(--color-background-hover);min-width:0}
+.wp-app .wp-hero-extra .wp-detail-grid{gap:5px}.wp-app .wp-hero-extra .wp-detail{padding:5px}.wp-app .wp-hero-extra .wp-detail>span{font-size:16px}.wp-app .wp-hero-extra .wp-detail small{font-size:9px}.wp-app .wp-hero-extra .wp-detail strong{font-size:11px}
+.wp-app .wp-hero-sun-head{display:flex;justify-content:space-between;gap:8px;font-size:12px}.wp-app .wp-sun-line-compact{font-size:16px;padding:7px 0}
+.wp-app .wp-forecast-board{min-height:clamp(280px,37dvh,390px);display:grid;grid-template-rows:auto minmax(100px,1fr) auto auto}
+.wp-app .wp-temperature-trend{height:clamp(95px,15dvh,150px)}
+.wp-app .wp-weather-map{height:clamp(360px,calc(100dvh - 265px),720px)}
+.wp-app .wp-map-section{min-height:calc(100dvh - 145px)}
+}
+.wp-app .wp-map-external{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:4px 9px;border-radius:8px;background:var(--color-background-hover);color:var(--color-main-text)!important;text-decoration:none!important;font-size:11px;white-space:nowrap}
+@media (max-width:760px){.wp-app .wp-header .wp-tabs{order:3;flex:1 0 100%;width:100%}.wp-app .wp-hero-side{display:grid;gap:8px}.wp-app .wp-hero-extras{display:grid;gap:8px}.wp-app .wp-map-external{min-height:44px}.wp-app .wp-forecast-board{min-height:auto}}
+.wp-widget .wp-widget-location{font-size:clamp(12px,3.7vw,15px);font-weight:700;line-height:1.25;white-space:normal;overflow-wrap:anywhere}
+.wp-widget .wp-widget-summary{display:grid;gap:2px;min-width:0}.wp-widget .wp-widget-temp-line{display:flex;align-items:baseline;gap:6px;min-width:0}.wp-widget .wp-widget-temp-line span{font-size:11px}.wp-widget .wp-widget-trend{display:flex;align-items:center;gap:4px;font-size:10px;line-height:1.2;opacity:.8}.wp-widget .wp-widget-trend b{font-size:18px;line-height:1}
+
+@media (min-width:761px) and (max-width:1199px){.wp-app .wp-header{display:flex;flex-wrap:wrap}.wp-app .wp-header .wp-tabs{order:3;flex:1 0 100%}.wp-app .wp-hero-side{display:grid;gap:8px}.wp-app .wp-hero-extras{display:grid;grid-template-columns:1fr 1fr;gap:8px}.wp-app .wp-forecast-board{min-height:clamp(270px,38dvh,360px)}.wp-app .wp-temperature-trend{height:clamp(85px,14dvh,130px)}}
+@media (min-width:761px){.wp-app .wp-weather-map{height:clamp(360px,calc(100dvh - 265px),720px)}.wp-app .wp-map-section{min-height:calc(100dvh - 145px)}}
+
+/* v0.15.0 interactive map selection and provider controls */
+.wp-app .wp-picked-marker{position:absolute;z-index:8;transform:translate(-50%,-100%);font-size:25px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.7));pointer-events:none}
+.wp-app .wp-map-click-card{position:absolute;z-index:10;right:10px;top:10px;width:min(390px,calc(100% - 20px));display:grid;gap:6px;padding:9px 10px;border-radius:11px;background:color-mix(in srgb,var(--color-main-background) 92%,transparent);box-shadow:0 4px 18px rgba(0,0,0,.22);backdrop-filter:blur(8px);cursor:default;touch-action:auto}
+.wp-app .wp-map-click-card>small{opacity:.72}.wp-app .wp-map-pick-switch{display:flex;gap:5px;overflow-x:auto}.wp-app .wp-map-pick-switch button{min-height:32px!important;padding:4px 8px!important;border-radius:999px!important;white-space:nowrap}.wp-app .wp-map-pick-switch button.active{background:var(--color-primary-element)!important;color:var(--color-primary-element-text)!important}.wp-app .wp-map-pick-weather{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.wp-app .wp-map-pick-weather span{padding:5px 7px;border-radius:7px;background:var(--color-background-hover);font-size:11px}.wp-app .wp-map-click-card.wp-loading-inline{opacity:.7;pointer-events:none}
+.wp-app .wp-admin-mapy{margin-top:14px;padding-top:12px;border-top:1px solid var(--color-border);display:grid;gap:8px}.wp-app .wp-admin-mapy label{display:grid;gap:5px}.wp-app .wp-admin-mapy .wp-checkbox{display:flex;align-items:center;gap:7px}.wp-app .wp-admin-mapy input[type=password]{width:min(100%,520px)}
+@media(max-width:760px){.wp-app .wp-map-click-card{left:6px;right:6px;top:6px;width:auto;max-height:52%;overflow:auto}.wp-app .wp-map-pick-weather{grid-template-columns:1fr 1fr}.wp-app .wp-map-tools{overflow-x:auto;padding-bottom:3px}.wp-app .wp-map-tools select{min-width:140px;flex:0 0 auto}}
+@media(max-width:360px){.wp-app .wp-map-pick-weather{grid-template-columns:1fr}.wp-app .wp-map-click-card{font-size:12px}}
+
+.wp-app .wp-map-attribution{position:absolute;z-index:9;right:6px;bottom:5px;max-width:70%;padding:2px 5px;border-radius:5px;background:color-mix(in srgb,var(--color-main-background) 78%,transparent);font-size:9px;line-height:1.2;pointer-events:auto}.wp-app .wp-map-attribution a{color:inherit!important;text-decoration:none!important}.wp-app .wp-map-click-card:not([hidden])~.wp-map-attribution{opacity:.75}
+
+
+/* v0.15.0 – taller desktop forecast and mobile viewport/zoom hardening */
+@media (min-width:1200px){
+  .wp-app .wp-hero{min-height:clamp(190px,24dvh,270px)}
+  .wp-app .wp-forecast-board{min-height:clamp(350px,44dvh,500px);grid-template-rows:auto minmax(150px,1fr) auto 8px auto}
+  .wp-app .wp-temperature-trend{height:clamp(145px,20dvh,220px)}
+  .wp-app .wp-hour-mini{padding-block:9px 11px}.wp-app .wp-day-mini{padding-block:10px}
+}
+@media (min-width:761px) and (max-width:1199px){
+  .wp-app .wp-hero{min-height:clamp(180px,23dvh,235px)}
+  .wp-app .wp-forecast-board{min-height:clamp(330px,43dvh,430px);grid-template-rows:auto minmax(130px,1fr) auto 8px auto}
+  .wp-app .wp-temperature-trend{height:clamp(120px,18dvh,175px)}
+}
+@media (max-width:760px){
+  /* Do not lock the application to visualViewport height on phones. Browser zoom and
+     the soft keyboard change visualViewport.height; using it as the page height caused
+     the Nextcloud background to rise over/after the forecast. Let the document grow. */
+  .wp-app{height:auto!important;max-height:none!important;min-height:calc(100dvh - 50px);overflow:visible!important;scrollbar-gutter:auto;background:transparent}
+  .wp-app .wp-main,.wp-app .wp-view{height:auto!important;max-height:none!important;overflow:visible}
+  .wp-app .wp-forecast-board{display:flex!important;flex-direction:column;min-height:0!important;height:auto!important;max-height:none!important;overflow:visible!important}
+  .wp-app .wp-temperature-trend-wrap{flex:0 0 auto;overflow:hidden}
+  .wp-app .wp-temperature-trend{height:clamp(105px,18dvh,150px)}
+  .wp-app .wp-hourly-compact,.wp-app .wp-daily-compact{flex:none;width:100%;max-width:100%;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch}
+  .wp-app .wp-daily-compact{min-height:96px}
+  .wp-app .wp-strip-divider{flex:0 0 8px}
+}
+@media (max-width:430px){
+  .wp-app .wp-temperature-trend{height:120px}
+  .wp-app .wp-hour-mini{flex:0 0 78px;min-width:78px;padding-block:8px 10px}
+  .wp-app .wp-day-mini{flex:0 0 116px;min-width:116px;padding-block:9px}
+}
+@media (max-width:360px){
+  .wp-app .wp-hour-mini{flex-basis:72px;min-width:72px}
+  .wp-app .wp-day-mini{flex-basis:108px;min-width:108px}
+}
+
+/* v0.15.0 – fill the desktop viewport and restore reliable mobile scrolling */
+@media (min-width:1200px){
+  .wp-app{
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+    overflow:hidden;
+  }
+  .wp-app .wp-main{
+    min-height:0;
+    height:100%;
+  }
+  .wp-app #wp-tab-overview{
+    height:100%;
+    min-height:0;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  .wp-app #wp-tab-overview > .wp-hero{
+    min-height:clamp(205px,25dvh,285px);
+  }
+  .wp-app #wp-tab-overview > .wp-forecast-board{
+    height:100%;
+    min-height:0;
+    grid-template-rows:auto minmax(190px,1fr) auto 8px auto;
+  }
+  .wp-app .wp-temperature-trend-wrap{
+    min-height:0;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  .wp-app .wp-temperature-trend{
+    height:100%;
+    min-height:180px;
+    max-height:none;
+  }
+}
+
+@media (min-width:1600px) and (min-height:850px){
+  .wp-app #wp-tab-overview > .wp-hero{min-height:clamp(220px,27dvh,310px)}
+  .wp-app #wp-tab-overview > .wp-forecast-board{grid-template-rows:auto minmax(240px,1fr) auto 10px auto}
+  .wp-app .wp-temperature-trend{min-height:225px}
+  .wp-app .wp-hour-mini{padding-block:12px 14px}
+  .wp-app .wp-day-mini{padding-block:13px}
+}
+
+@media (max-width:760px){
+  /* Nextcloud's parent content can be non-scrolling on mobile. Keep scrolling inside
+     WeatherPlus, but use dvh rather than visualViewport for the page height so pinch
+     zoom cannot expose the Nextcloud background from below. */
+  .wp-app{
+    height:calc(100dvh - 50px)!important;
+    max-height:calc(100dvh - 50px)!important;
+    min-height:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y pinch-zoom;
+    scrollbar-gutter:auto;
+  }
+  .wp-app .wp-main,
+  .wp-app .wp-view{
+    height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-forecast-board{
+    display:flex!important;
+    flex-direction:column;
+    min-height:0!important;
+    height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-temperature-trend-wrap{flex:0 0 auto;overflow:hidden}
+  .wp-app .wp-temperature-trend{height:120px;min-height:120px}
+  .wp-app .wp-hourly-compact,
+  .wp-app .wp-daily-compact{
+    flex:none;
+    width:100%;
+    max-width:100%;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    touch-action:pan-x;
+    -webkit-overflow-scrolling:touch;
+  }
+}
+
+@media (max-width:760px) and (max-height:560px),
+       (orientation:landscape) and (max-width:920px) and (max-height:620px){
+  .wp-app{height:calc(100dvh - 50px)!important;max-height:calc(100dvh - 50px)!important;overflow-y:auto!important}
+}
+
+
+/* v0.15.0 – rebalance forecast height and improve mobile pinch/pan */
+@media (min-width:1200px){
+  /* Keep the forecast board filling the viewport, but stop the chart from consuming it. */
+  .wp-app #wp-tab-overview > .wp-forecast-board{
+    grid-template-rows:
+      auto
+      minmax(125px, 0.72fr)
+      minmax(105px, 0.48fr)
+      8px
+      minmax(100px, 0.42fr);
+  }
+  .wp-app .wp-temperature-trend-wrap{
+    min-height:0;
+  }
+  .wp-app .wp-temperature-trend{
+    height:100%;
+    min-height:125px;
+    max-height:190px;
+  }
+
+  /* Use the freed vertical space for readable weather rows instead. */
+  .wp-app .wp-hour-mini{
+    align-content:center;
+    min-height:105px;
+    padding:10px 5px 12px;
+  }
+  .wp-app .wp-hour-mini .wp-mini-icon{
+    font-size:36px;
+    line-height:1.05;
+  }
+  .wp-app .wp-hour-mini strong{font-size:18px}
+  .wp-app .wp-hour-mini time{font-size:12px}
+  .wp-app .wp-hour-mini small{font-size:11px}
+
+  .wp-app .wp-day-mini{
+    align-content:center;
+    min-height:100px;
+    padding:10px 7px;
+  }
+  .wp-app .wp-day-mini .wp-mini-icon{
+    font-size:39px;
+    line-height:1.05;
+  }
+  .wp-app .wp-day-mini strong{font-size:17px}
+  .wp-app .wp-day-mini time{font-size:12px}
+  .wp-app .wp-day-mini small{font-size:11px}
+}
+
+@media (min-width:1600px) and (min-height:850px){
+  .wp-app #wp-tab-overview > .wp-forecast-board{
+    grid-template-rows:
+      auto
+      minmax(145px, 0.68fr)
+      minmax(120px, 0.5fr)
+      10px
+      minmax(112px, 0.44fr);
+  }
+  .wp-app .wp-temperature-trend{
+    min-height:145px;
+    max-height:205px;
+  }
+  .wp-app .wp-hour-mini .wp-mini-icon{font-size:40px}
+  .wp-app .wp-day-mini .wp-mini-icon{font-size:44px}
+  .wp-app .wp-hour-mini strong{font-size:19px}
+  .wp-app .wp-day-mini strong{font-size:18px}
+}
+
+@media (max-width:760px){
+  /*
+   * Allow the browser to pinch-zoom over the forecast itself and allow horizontal
+   * movement after zooming. overflow-x:hidden was the reason the enlarged page
+   * became clipped with no way to reach the right-hand side.
+   */
+  .wp-app{
+    overflow-x:auto!important;
+    overflow-y:auto!important;
+    touch-action:pan-x pan-y pinch-zoom!important;
+  }
+  .wp-app .wp-main,
+  .wp-app .wp-view,
+  .wp-app .wp-forecast-board,
+  .wp-app .wp-temperature-trend-wrap,
+  .wp-app .wp-temperature-trend{
+    touch-action:pan-x pan-y pinch-zoom!important;
+  }
+  .wp-app .wp-temperature-trend-wrap{
+    overflow:visible;
+  }
+  .wp-app .wp-temperature-trend{
+    pointer-events:auto;
+  }
+
+  /* Forecast carousels still scroll horizontally but must not block pinch zoom. */
+  .wp-app .wp-hourly-compact,
+  .wp-app .wp-daily-compact{
+    touch-action:pan-x pan-y pinch-zoom!important;
+  }
+}
+
+
+/* v0.15.0 – Core About integration */
+.wp-app .wp-core-about-host{min-width:0;max-width:100%;overflow:auto}
+.wp-about-overlay{z-index:10020}.wp-about-dialog{max-width:min(900px,calc(100vw - 24px))!important}
+@media(max-width:760px){.wp-app .wp-header-actions{grid-template-columns:1fr 1fr 1fr}.wp-app .wp-header-actions button{min-width:0}}
+
+/* v0.15.0 – všechny pohledy používají veřejné Core Layout Primitives.
+   Weather pouze doplňuje vlastní vnitřní chování obsahu: graf, mapy, timeline,
+   větrné a bouřkové panely. Obecné měření viewportu a resize lifecycle běží přes
+   window.HcSharedAppCore.layout.observe(...). */
+.wp-app.hc-shared-app-core-layout,
+.wp-app.hc-shared-app-core-layout *{box-sizing:border-box}
+.wp-app.hc-shared-app-core-layout{
+  --hc-shared-app-core-top-offset:50px;
+  width:100%;
+  max-width:none;
+  min-width:0;
+  min-height:0;
+}
+.wp-app .hc-shared-app-core-layout__header,
+.wp-app .hc-shared-app-core-layout__toolbar,
+.wp-app .hc-shared-app-core-layout__content,
+.wp-app .hc-shared-app-core-view,
+.wp-app .hc-shared-app-core-surface,
+.wp-app .hc-shared-app-core-scroll-area{min-width:0;min-height:0}
+.wp-app .hc-shared-app-core-layout__header{flex:0 0 auto}
+.wp-app .hc-shared-app-core-layout__toolbar{flex:0 0 auto}
+.wp-app .hc-shared-app-core-layout__content{flex:1 1 auto}
+.wp-app .hc-shared-app-core-scroll-area{overscroll-behavior-x:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
+
+@media (min-width:761px){
+  .wp-app.hc-shared-app-core-layout{
+    display:flex!important;
+    flex-direction:column!important;
+    height:calc(var(--hc-shared-app-core-viewport-height,100dvh) - var(--hc-shared-app-core-top-offset,50px))!important;
+    max-height:calc(var(--hc-shared-app-core-viewport-height,100dvh) - var(--hc-shared-app-core-top-offset,50px))!important;
+    overflow:hidden!important;
+  }
+  .wp-app .wp-header.hc-shared-app-core-layout__header{
+    margin-bottom:8px;
+  }
+  .wp-app .wp-main.hc-shared-app-core-layout__content{
+    display:grid!important;
+    grid-template-rows:minmax(0,1fr);
+    height:auto!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .wp-app .wp-state-card[hidden],
+  .wp-app .wp-view[hidden]{display:none!important}
+  .wp-app .wp-view.hc-shared-app-core-view:not([hidden]){
+    min-height:0!important;
+    height:100%!important;
+    overflow:hidden!important;
+  }
+
+  .wp-app #wp-tab-overview.hc-shared-app-core-view:not([hidden]){
+    display:grid!important;
+    grid-template-rows:auto minmax(0,1fr);
+    gap:10px;
+  }
+  .wp-app #wp-tab-overview > .wp-hero.hc-shared-app-core-surface{
+    flex:0 0 auto;
+    min-height:clamp(190px,24dvh,270px);
+  }
+  .wp-app #wp-tab-overview > .wp-forecast-board.hc-shared-app-core-surface{
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+    grid-template-rows:auto minmax(125px,.72fr) minmax(105px,.48fr) 8px minmax(100px,.42fr);
+  }
+  .wp-app .wp-temperature-trend-wrap{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr)}
+  .wp-app .wp-temperature-trend{height:100%;min-height:125px;max-height:190px}
+
+  .wp-app #wp-tab-weather-map.hc-shared-app-core-view:not([hidden]){
+    display:grid!important;
+    grid-template-rows:minmax(0,1fr);
+  }
+  .wp-app #wp-tab-weather-map > .wp-map-section.hc-shared-app-core-surface{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:8px;
+    min-height:0!important;
+    height:100%!important;
+    max-height:100%!important;
+    overflow:hidden!important;
+  }
+  .wp-app #wp-tab-weather-map .wp-section-title,
+  .wp-app #wp-tab-weather-map .wp-map-toolbar,
+  .wp-app #wp-tab-weather-map .wp-map-timeline,
+  .wp-app #wp-tab-weather-map .wp-wind-levels,
+  .wp-app #wp-tab-weather-map .wp-map-detail-heading,
+  .wp-app #wp-tab-weather-map .wp-wind-current,
+  .wp-app #wp-tab-weather-map .wp-storm-summary{
+    flex:0 0 auto;
+  }
+  .wp-app #wp-tab-weather-map .wp-weather-map.hc-shared-app-core-surface{
+    flex:1 1 auto!important;
+    min-height:180px;
+    height:auto!important;
+    max-height:none!important;
+  }
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-wind-hours,
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-storm-hours{
+    flex:0 0 auto;
+    max-height:82px;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+  }
+  .wp-app #wp-tab-warnings.hc-shared-app-core-scroll-area:not([hidden]){
+    overflow:auto!important;
+  }
+}
+
+@media (min-width:761px) and (max-height:760px){
+  .wp-app .wp-header{margin-bottom:5px}
+  .wp-app .wp-tabs{padding:3px 0 5px}
+  .wp-app .wp-header-actions button,
+  .wp-app .wp-tabs button,
+  .wp-app .wp-map-ranges button,
+  .wp-app .wp-map-tools button,
+  .wp-app .wp-wind-levels button,
+  .wp-app .wp-map-timeline button{min-height:30px!important;padding:4px 8px!important}
+  .wp-app .wp-map-section{padding:9px!important}
+  .wp-app .wp-section-title{margin-bottom:2px}
+  .wp-app .wp-map-toolbar{margin-bottom:0;gap:5px}
+  .wp-app .wp-map-timeline{margin-bottom:0;gap:5px}
+  .wp-app .wp-wind-levels{padding-bottom:2px}
+  .wp-app .wp-map-detail-heading{margin:2px 0 0}
+  .wp-app .wp-wind-current{padding:6px 9px;margin-bottom:2px}
+  .wp-app .wp-storm-summary{margin-bottom:2px}
+  .wp-app #wp-tab-weather-map .wp-weather-map.hc-shared-app-core-surface{min-height:150px}
+}
+
+@media (min-width:761px) and (max-height:640px){
+  .wp-app .wp-brand h2{font-size:22px}
+  .wp-app .wp-brand p{font-size:12px}
+  .wp-app .wp-app-icon{width:34px;height:34px}
+  .wp-app #wp-tab-weather-map .wp-weather-map.hc-shared-app-core-surface{min-height:120px}
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-wind-hours,
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-storm-hours{max-height:62px}
+  .wp-app .wp-wind-hours>div,
+  .wp-app .wp-storm-hour{padding:4px 5px;gap:1px}
+}
+
+@media (max-width:760px){
+  .wp-app.hc-shared-app-core-layout{
+    display:flex!important;
+    flex-direction:column!important;
+    height:calc(var(--hc-shared-app-core-viewport-height,100dvh) - var(--hc-shared-app-core-top-offset,50px))!important;
+    max-height:calc(var(--hc-shared-app-core-viewport-height,100dvh) - var(--hc-shared-app-core-top-offset,50px))!important;
+    overflow-x:auto!important;
+    overflow-y:auto!important;
+    touch-action:pan-x pan-y pinch-zoom!important;
+  }
+  .wp-app .wp-main.hc-shared-app-core-layout__content,
+  .wp-app .wp-view.hc-shared-app-core-view{
+    height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-view.hc-shared-app-core-scroll-area:not([hidden]){
+    overflow:visible!important;
+  }
+  .wp-app #wp-tab-weather-map > .wp-map-section.hc-shared-app-core-surface{
+    display:flex!important;
+    flex-direction:column!important;
+    min-height:0!important;
+    height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-weather-map.hc-shared-app-core-surface{
+    height:clamp(300px,58dvh,520px)!important;
+    min-height:260px;
+  }
+}
+
+
+/* v0.15.0 – Weather-specific content fit inside the shared Core layout.
+   Core owns the page/header/content sizing. Weather now only declares which
+   internal map/detail parts shrink, fill or scroll, so data is not clipped. */
+@media (min-width:761px){
+  .wp-app #wp-tab-weather-map.hc-shared-app-core-view:not([hidden]){
+    display:block!important;
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .wp-app #wp-tab-weather-map > .wp-map-section.hc-shared-app-core-surface{
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    overflow:auto!important;
+    scrollbar-gutter:stable;
+    padding:clamp(8px,1vw,14px)!important;
+  }
+  .wp-app #wp-tab-radar > .wp-map-section.hc-shared-app-core-surface{
+    display:grid!important;
+    grid-template-rows:auto auto auto minmax(220px,1fr);
+    gap:8px;
+  }
+  .wp-app #wp-tab-wind > .wp-map-section.hc-shared-app-core-surface{
+    display:grid!important;
+    grid-template-rows:auto auto auto auto minmax(210px,1fr) auto auto minmax(84px,auto);
+    gap:7px;
+  }
+  .wp-app #wp-tab-storms > .wp-map-section.hc-shared-app-core-surface{
+    display:grid!important;
+    grid-template-rows:auto auto auto minmax(210px,1fr) auto auto minmax(92px,auto);
+    gap:7px;
+  }
+  .wp-app #wp-tab-weather-map .wp-weather-map.hc-shared-app-core-surface{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:none!important;
+    align-self:stretch;
+  }
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-wind-hours,
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-storm-hours{
+    min-height:0!important;
+    max-height:none!important;
+    height:auto!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    padding:0 0 8px!important;
+    align-self:stretch;
+  }
+  .wp-app .wp-wind-hours>div,
+  .wp-app .wp-storm-hour{
+    min-height:70px;
+    align-content:center;
+    line-height:1.18;
+    overflow:visible;
+  }
+  .wp-app .wp-storm-hour small,
+  .wp-app .wp-wind-hours small{
+    line-height:1.12;
+    white-space:nowrap;
+  }
+  .wp-app .wp-wind-current,
+  .wp-app .wp-storm-summary{
+    min-height:0;
+    overflow:visible;
+  }
+}
+
+@media (min-width:761px) and (max-height:760px){
+  .wp-app #wp-tab-radar > .wp-map-section.hc-shared-app-core-surface{grid-template-rows:auto auto auto minmax(180px,1fr);gap:6px}
+  .wp-app #wp-tab-wind > .wp-map-section.hc-shared-app-core-surface{grid-template-rows:auto auto auto auto minmax(165px,1fr) auto auto minmax(76px,auto);gap:5px}
+  .wp-app #wp-tab-storms > .wp-map-section.hc-shared-app-core-surface{grid-template-rows:auto auto auto minmax(165px,1fr) auto auto minmax(82px,auto);gap:5px}
+  .wp-app .wp-wind-hours>div,.wp-app .wp-storm-hour{min-height:64px;padding:5px 5px!important}
+  .wp-app .wp-storm-hour small,.wp-app .wp-wind-hours small{font-size:9px}
+}
+
+@media (min-width:761px) and (max-height:640px){
+  .wp-app #wp-tab-radar > .wp-map-section.hc-shared-app-core-surface{grid-template-rows:auto auto auto minmax(140px,1fr)}
+  .wp-app #wp-tab-wind > .wp-map-section.hc-shared-app-core-surface{grid-template-rows:auto auto auto auto minmax(125px,1fr) auto auto minmax(68px,auto)}
+  .wp-app #wp-tab-storms > .wp-map-section.hc-shared-app-core-surface{grid-template-rows:auto auto auto minmax(125px,1fr) auto auto minmax(72px,auto)}
+  .wp-app .wp-wind-hours>div,.wp-app .wp-storm-hour{min-height:58px;padding:4px 5px!important}
+}
+
+
+/* v0.15.0 – Weather mobile content fit on top of Core Layout API.
+   Core owns the page size. Weather must not create horizontal page scrolling:
+   header, tabs, actions and map controls stack inside the viewport; only
+   dedicated strips such as tabs/ranges/timelines may scroll horizontally. */
+.wp-app.hc-shared-app-core-layout{
+  overflow-x:hidden!important;
+  width:100%!important;
+  max-width:100%!important;
+}
+.wp-app .wp-header,
+.wp-app .wp-main,
+.wp-app .wp-view,
+.wp-app .wp-section,
+.wp-app .wp-map-section,
+.wp-app .wp-forecast-board{
+  width:100%;
+  max-width:100%;
+}
+
+@media (max-width:760px){
+  .wp-app.hc-shared-app-core-layout{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    touch-action:pan-y pinch-zoom!important;
+  }
+  .wp-app .wp-header.hc-shared-app-core-layout__header,
+  .wp-app .wp-header{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:flex-start!important;
+    justify-content:flex-start!important;
+    gap:8px!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-brand{
+    order:1;
+    flex:1 1 calc(100% - 8px)!important;
+    max-width:100%!important;
+  }
+  .wp-app .wp-brand p{
+    max-width:100%!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere;
+  }
+  .wp-app .wp-tabs.hc-shared-app-core-layout__toolbar,
+  .wp-app .wp-header .wp-tabs,
+  .wp-app .wp-tabs{
+    order:2!important;
+    flex:1 0 100%!important;
+    width:100%!important;
+    max-width:100%!important;
+    display:flex!important;
+    justify-content:flex-start!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    white-space:nowrap!important;
+    padding:4px 0 6px!important;
+    margin:0!important;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+  }
+  .wp-app .wp-tabs button{
+    flex:0 0 auto!important;
+    scroll-snap-align:start;
+  }
+  .wp-app .wp-header-actions{
+    order:3!important;
+    flex:1 0 100%!important;
+    width:100%!important;
+    max-width:100%!important;
+    display:flex!important;
+    flex-wrap:wrap!important;
+    justify-content:flex-start!important;
+    gap:6px!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-header-actions button{
+    flex:1 1 auto!important;
+    min-width:max-content!important;
+    max-width:100%!important;
+  }
+  .wp-app .wp-main.hc-shared-app-core-layout__content{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+  .wp-app .wp-view.hc-shared-app-core-view:not([hidden]){
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+  .wp-app #wp-tab-weather-map > .wp-map-section.hc-shared-app-core-surface{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+    padding:8px!important;
+    gap:8px!important;
+  }
+  .wp-app .wp-map-toolbar{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:7px!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-map-ranges,
+  .wp-app .wp-wind-levels{
+    width:100%!important;
+    max-width:100%!important;
+    flex-wrap:nowrap!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    padding-bottom:4px!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  .wp-app .wp-map-tools{
+    width:100%!important;
+    max-width:100%!important;
+    display:flex!important;
+    flex-wrap:wrap!important;
+    justify-content:flex-start!important;
+    overflow:visible!important;
+    gap:6px!important;
+  }
+  .wp-app .wp-map-tools button{
+    flex:0 0 auto!important;
+  }
+  .wp-app .wp-map-tools select{
+    flex:1 1 145px!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin-left:0!important;
+  }
+  .wp-app .wp-map-external{
+    flex:1 1 120px!important;
+    min-width:0!important;
+    text-align:center;
+  }
+  .wp-app .wp-map-timeline{
+    width:100%!important;
+    max-width:100%!important;
+    grid-template-columns:1fr!important;
+  }
+  .wp-app .wp-map-timeline button{
+    justify-self:start;
+  }
+  .wp-app .wp-map-timeline input{
+    min-width:0!important;
+    width:100%!important;
+  }
+  .wp-app .wp-map-timeline>span{
+    grid-column:auto!important;
+    text-align:left!important;
+    white-space:normal!important;
+  }
+  .wp-app .wp-weather-map.hc-shared-app-core-surface{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:clamp(300px,52svh,470px)!important;
+  }
+  .wp-app .wp-wind-hours,
+  .wp-app .wp-storm-hours,
+  .wp-app .wp-hourly-compact,
+  .wp-app .wp-daily-compact{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    -webkit-overflow-scrolling:touch;
+  }
+}
+
+@media (max-width:430px){
+  .wp-app .wp-header-actions button{
+    flex:1 1 calc(50% - 4px)!important;
+  }
+  .wp-app .wp-map-tools{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+  .wp-app .wp-map-tools button{
+    width:auto!important;
+    min-width:0!important;
+  }
+  .wp-app .wp-map-tools select,
+  .wp-app .wp-map-external{
+    grid-column:span 2;
+  }
+}
+
+
+/* v0.15.0 – phone portrait/landscape hardening.
+   The previous mobile media rules only caught narrow portrait screens. Many phones
+   in landscape are wider than 760px, so desktop rules locked the active view to
+   height:100% + overflow:hidden and only the header/menu remained visible. */
+@media (max-width:760px), (orientation:landscape) and (max-height:620px) and (max-width:980px){
+  .wp-app.hc-shared-app-core-layout{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:calc(100svh - var(--hc-shared-app-core-top-offset,50px))!important;
+    max-height:calc(100svh - var(--hc-shared-app-core-top-offset,50px))!important;
+    min-height:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    padding:8px!important;
+    margin:0!important;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y pinch-zoom!important;
+  }
+  .wp-app .wp-header.hc-shared-app-core-layout__header{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:7px!important;
+    align-items:start!important;
+    justify-content:start!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:0 0 7px!important;
+    padding:0!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-brand{
+    width:100%!important;
+    max-width:100%!important;
+    flex:none!important;
+    display:flex!important;
+    justify-content:flex-start!important;
+  }
+  .wp-app .wp-brand-title{min-width:0;max-width:100%}
+  .wp-app .wp-brand h2{font-size:22px!important;line-height:1.15!important}
+  .wp-app .wp-app-icon{width:34px!important;height:34px!important}
+  .wp-app .wp-brand p{font-size:12px!important;line-height:1.25!important;max-width:100%!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+  .wp-app .wp-tabs.hc-shared-app-core-layout__toolbar{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    display:flex!important;
+    justify-content:flex-start!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    padding:2px 0 5px!important;
+    margin:0!important;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-x pan-y pinch-zoom!important;
+  }
+  .wp-app .wp-tabs.hc-shared-app-core-layout__toolbar::-webkit-scrollbar{display:none}
+  .wp-app .wp-tabs button{flex:0 0 auto!important;min-height:32px!important;padding:5px 9px!important;font-size:13px!important}
+  .wp-app .wp-header-actions{
+    width:100%!important;
+    max-width:100%!important;
+    display:flex!important;
+    flex-wrap:wrap!important;
+    justify-content:flex-start!important;
+    gap:5px!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-header-actions button{flex:1 1 auto!important;min-width:0!important;min-height:32px!important;padding:5px 8px!important;font-size:13px!important;white-space:nowrap}
+  .wp-app .wp-main.hc-shared-app-core-layout__content,
+  .wp-app .wp-view.hc-shared-app-core-view:not([hidden]){
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-section,
+  .wp-app .wp-map-section,
+  .wp-app .wp-forecast-board,
+  .wp-app .wp-hero{
+    width:100%!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    border-radius:12px!important;
+  }
+  .wp-app .wp-hero{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    min-height:0!important;
+    padding:10px!important;
+    gap:10px!important;
+  }
+  .wp-app .wp-hero-main{gap:10px!important}.wp-app .wp-weather-icon-hero{font-size:54px!important}.wp-app .wp-current-top strong{font-size:42px!important}.wp-app .wp-current-top span{font-size:20px!important}
+  .wp-app .wp-hero-extras,.wp-app .wp-grid-two{grid-template-columns:1fr!important}
+  .wp-app .wp-current-meta,.wp-app .wp-detail-grid{grid-template-columns:1fr 1fr!important}
+  .wp-app .wp-forecast-board{display:flex!important;flex-direction:column!important;gap:8px!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important}
+  .wp-app .wp-temperature-trend{height:105px!important;min-height:105px!important;max-height:105px!important}
+  .wp-app .wp-hourly-compact,.wp-app .wp-daily-compact{display:flex!important;overflow-x:auto!important;overflow-y:hidden!important;width:100%!important;max-width:100%!important;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom!important}
+  .wp-app .wp-hour-mini{flex:0 0 78px!important;min-width:78px!important}.wp-app .wp-day-mini{flex:0 0 112px!important;min-width:112px!important}
+  .wp-app #wp-tab-weather-map > .wp-map-section.hc-shared-app-core-surface{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:7px!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:hidden!important;
+    padding:8px!important;
+  }
+  .wp-app .wp-map-toolbar{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;width:100%!important;max-width:100%!important;overflow:hidden!important}
+  .wp-app .wp-map-ranges,.wp-app .wp-wind-levels{display:flex!important;flex-wrap:nowrap!important;width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom!important}
+  .wp-app .wp-map-tools{display:flex!important;flex-wrap:wrap!important;gap:5px!important;width:100%!important;max-width:100%!important;justify-content:flex-start!important;overflow:visible!important}
+  .wp-app .wp-map-tools button{width:auto!important;min-width:32px!important;min-height:32px!important;padding:4px 7px!important;font-size:13px!important}
+  .wp-app .wp-map-tools select{flex:1 1 135px!important;min-width:0!important;max-width:100%!important;height:32px!important;font-size:13px!important}.wp-app .wp-map-external{flex:1 1 110px!important;min-width:0!important;min-height:32px!important;font-size:11px!important}
+  .wp-app .wp-map-timeline{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:6px!important;width:100%!important;max-width:100%!important;overflow:hidden!important}.wp-app .wp-map-timeline>span{grid-column:1/3!important;text-align:left!important;white-space:normal!important;font-size:10px!important}.wp-app .wp-map-timeline input{width:100%!important;min-width:0!important}
+  .wp-app .wp-weather-map.hc-shared-app-core-surface{width:100%!important;max-width:100%!important;min-width:0!important;height:48svh!important;min-height:220px!important;max-height:420px!important;flex:none!important}
+  .wp-app .wp-map-detail-heading,.wp-app .wp-wind-current,.wp-app .wp-storm-summary{width:100%!important;max-width:100%!important;overflow:hidden!important}.wp-app .wp-wind-hours,.wp-app .wp-storm-hours{width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom!important}
+}
+
+@media (orientation:landscape) and (max-height:620px) and (max-width:980px){
+  .wp-app.hc-shared-app-core-layout{height:calc(100svh - var(--hc-shared-app-core-top-offset,50px))!important;max-height:calc(100svh - var(--hc-shared-app-core-top-offset,50px))!important;padding:6px!important}
+  .wp-app .wp-header.hc-shared-app-core-layout__header{grid-template-columns:minmax(150px,.55fr) minmax(0,1fr) auto!important;align-items:center!important;gap:6px!important}
+  .wp-app .wp-brand p{display:none!important}.wp-app .wp-brand h2{font-size:19px!important}.wp-app .wp-app-icon{width:28px!important;height:28px!important}
+  .wp-app .wp-tabs.hc-shared-app-core-layout__toolbar{padding:0!important;align-self:center!important}.wp-app .wp-tabs button{min-height:30px!important;padding:4px 8px!important;font-size:12px!important}
+  .wp-app .wp-header-actions{width:auto!important;display:flex!important;flex-wrap:nowrap!important}.wp-app .wp-header-actions button{flex:0 0 auto!important;min-height:30px!important;padding:4px 7px!important;font-size:12px!important}
+  .wp-app .wp-hero{grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr)!important}.wp-app .wp-weather-icon-hero{font-size:42px!important}.wp-app .wp-current-top strong{font-size:34px!important}.wp-app .wp-current-top span{font-size:17px!important}
+  .wp-app .wp-hero-extras{grid-template-columns:1fr 1fr!important}.wp-app .wp-current-meta{grid-template-columns:1fr 1fr!important}
+  .wp-app .wp-temperature-trend{height:76px!important;min-height:76px!important;max-height:76px!important}
+  .wp-app .wp-hour-mini{flex-basis:68px!important;min-width:68px!important;padding:5px 4px!important}.wp-app .wp-day-mini{flex-basis:98px!important;min-width:98px!important;padding:5px 4px!important}
+  .wp-app .wp-weather-map.hc-shared-app-core-surface{height:46svh!important;min-height:160px!important;max-height:300px!important}
+}
+
+
+/* v0.15.0 – Shared App Core 0.12 identity + Core Guard + initial Core Maps bridge. */
+.wp-weather-map.hc-shared-app-core-map{position:relative;touch-action:none}.wp-weather-map .hc-shared-app-core-map__controls{z-index:30}.wp-weather-map .hc-shared-app-core-map__compass{z-index:29;pointer-events:none}.wp-map-tools [data-map-zoom-in],.wp-map-tools [data-map-zoom-out],.wp-map-tools [data-map-reset],.wp-map-tools [data-map-gps]{display:none!important}
+@media (max-width:760px){.wp-weather-map .hc-shared-app-core-map__controls{top:8px;right:8px}.wp-weather-map .hc-shared-app-core-map__controls button{min-width:38px;min-height:38px}}
+
+
+/* v0.15.0 Weather UI polish */
+.wp-header-actions #wp-about-button{display:none!important}
+.wp-section-title-actions h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0}
+.wp-title-play{font-size:13px;line-height:1.2;padding:7px 11px;border-radius:12px;vertical-align:middle;white-space:nowrap}
+.wp-map-ranges{display:none!important}
+.wp-map-toolbar{justify-content:flex-end;gap:10px}
+.wp-map-timeline{max-width:900px;width:min(900px,100%);align-self:stretch;display:flex;align-items:center;gap:10px}
+.wp-map-timeline input[type="range"]{flex:1 1 auto;min-width:140px}
+.wp-map-timeline .wp-muted{flex:0 0 auto;white-space:nowrap}
+.wp-settings-about-core{min-height:220px}
+.wp-settings-pane[data-settings-pane="about"]{padding-top:4px}
+.wp-settings-pane[data-settings-pane="about"] .hc-shared-app-core-about,
+.wp-settings-pane[data-settings-pane="about"] .app-core-about{max-width:none}
+/* The temporary Core compass/rose overlay is disabled for Weather 0.15.0; keep controls visible. */
+.wp-weather-map .hc-shared-app-core-map__compass,
+.wp-weather-map .hc-shared-app-core-compass,
+.wp-weather-map [data-core-map-compass-overlay]{display:none!important}
+@media (max-width:760px){
+  .wp-section-title-actions h3{gap:8px}
+  .wp-title-play{padding:8px 10px;min-height:38px}
+  .wp-map-toolbar{justify-content:flex-start}
+  .wp-map-timeline{width:100%;max-width:none;gap:8px}
+  .wp-map-timeline .wp-muted{white-space:normal;font-size:11px}
+}
+
+
+/* v0.15.0 UI cleanup for Core Maps integration.
+   Weather keeps only app-specific controls; Core owns zoom/home/GPS controls inside the map. */
+.wp-app .wp-section-title-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wp-app .wp-section-title-actions h3{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0}
+.wp-app .wp-title-play{display:inline-flex!important;align-items:center;gap:6px;min-height:32px!important;padding:5px 10px!important;border-radius:9px!important;font-size:13px!important;line-height:1.2!important;white-space:nowrap}
+.wp-app .wp-map-section{display:flex;flex-direction:column;gap:8px}
+.wp-app .wp-map-toolbar{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:8px!important;margin:-2px 0 0!important;min-height:auto!important}
+.wp-app .wp-map-tools.wp-provider-tools{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important;width:auto!important;max-width:100%!important;margin-left:auto!important;overflow:visible!important}
+.wp-app .wp-map-tools.wp-provider-tools select{height:32px!important;min-width:128px;max-width:170px;font-size:13px}
+.wp-app .wp-map-external{display:inline-flex;align-items:center;min-height:32px;padding:5px 9px;border-radius:8px;background:rgba(255,255,255,.05);white-space:nowrap;text-decoration:none}
+.wp-app .wp-map-timeline{align-self:flex-start;width:min(620px,100%)!important;max-width:620px!important;display:flex!important;align-items:center!important;gap:10px!important;margin:0 0 4px!important;overflow:visible!important}
+.wp-app .wp-map-timeline input[type="range"]{flex:1 1 280px;min-width:160px;max-width:520px}
+.wp-app .wp-map-timeline .wp-muted{flex:0 0 auto;white-space:nowrap;font-size:11px;opacity:.72}
+.wp-app .wp-weather-map .hc-shared-app-core-map__compass,
+.wp-app .wp-weather-map .hc-shared-app-core-compass,
+.wp-app .wp-weather-map [data-core-map-compass-overlay],
+.wp-app .wp-weather-map [class*="compass"],
+.wp-app .wp-weather-map [class*="rose"],
+.wp-app .wp-weather-map [class*="bearing"]{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.wp-app .wp-weather-map .hc-shared-app-core-map__controls{z-index:35!important}
+.wp-app .wp-radar-layer img{position:absolute;max-width:none!important;pointer-events:none;opacity:.72}
+@media (min-width:761px){
+  .wp-app .wp-map-section{padding-top:14px}
+  .wp-app .wp-map-toolbar{margin-top:-4px!important}
+  .wp-app .wp-weather-map.hc-shared-app-core-surface{margin-top:4px}
+}
+@media (max-width:760px){
+  .wp-app .wp-section-title-actions{align-items:flex-start}
+  .wp-app .wp-section-title-actions h3{width:100%}
+  .wp-app .wp-map-toolbar{justify-content:flex-start!important;width:100%!important;margin:0!important}
+  .wp-app .wp-map-tools.wp-provider-tools{justify-content:flex-start!important;width:100%!important;margin-left:0!important;overflow-x:auto!important;flex-wrap:nowrap!important;-webkit-overflow-scrolling:touch}
+  .wp-app .wp-map-timeline{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:5px!important}
+  .wp-app .wp-map-timeline .wp-muted{white-space:normal!important;text-align:left!important}
+  .wp-app .wp-map-timeline input[type="range"]{width:100%!important;max-width:none!important;min-width:0!important}
+}
+
+
+/* v0.15.0 – compact Weather map controls and hard-disable app-local map hint/unknown Core overlay bars. */
+.wp-app .wp-map-section{
+  gap:6px!important;
+}
+.wp-app .wp-map-toolbar{
+  justify-content:flex-start!important;
+  align-items:center!important;
+  margin:0!important;
+  min-height:0!important;
+}
+.wp-app .wp-map-tools.wp-provider-tools{
+  justify-content:flex-start!important;
+  margin-left:0!important;
+  width:auto!important;
+}
+.wp-app .wp-map-timeline{
+  align-self:flex-start!important;
+  width:min(480px,100%)!important;
+  max-width:480px!important;
+  margin:2px 0 8px!important;
+}
+.wp-app .wp-map-timeline input[type="range"]{
+  flex:1 1 260px!important;
+  max-width:360px!important;
+}
+.wp-app .wp-map-timeline .wp-muted{
+  font-size:11px!important;
+  opacity:.72!important;
+}
+.wp-app .wp-map-hint{
+  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
+}
+/* Weather disables all non-control Core map chrome for now; zoom/home/GPS buttons remain visible. */
+.wp-app .wp-weather-map > [class^="hc-shared-app-core-map__"]:not(.hc-shared-app-core-map__controls),
+.wp-app .wp-weather-map > [class*=" hc-shared-app-core-map__"]:not(.hc-shared-app-core-map__controls),
+.wp-app .wp-weather-map > [data-core-map-compass-overlay],
+.wp-app .wp-weather-map > [data-core-map-rose],
+.wp-app .wp-weather-map > [data-core-map-scale],
+.wp-app .wp-weather-map > [data-core-map-bearing]{
+  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+.wp-app .wp-weather-map .hc-shared-app-core-map__controls{
+  z-index:45!important;
+}
+@media (min-width:761px){
+  .wp-app .wp-map-section{padding-top:12px!important}
+  .wp-app .wp-section-title-actions{margin-bottom:2px!important}
+  .wp-app .wp-map-toolbar{margin-bottom:2px!important}
+}
+@media (max-width:760px){
+  .wp-app .wp-map-tools.wp-provider-tools{width:100%!important;overflow-x:auto!important;flex-wrap:nowrap!important}
+  .wp-app .wp-map-timeline{width:100%!important;max-width:none!important;margin:2px 0 6px!important}
+  .wp-app .wp-map-timeline input[type="range"]{max-width:none!important}
+}
+
+/* v0.14.4 – one-line map card controls. All app-specific map controls live in the card title row. */
+.wp-app .wp-map-headline{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  flex-wrap:nowrap!important;
+  margin-bottom:8px!important;
+}
+.wp-app .wp-map-headline h3{
+  flex:0 0 auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  min-width:0!important;
+  white-space:nowrap!important;
+}
+.wp-app .wp-map-headline-controls{
+  flex:1 1 auto!important;
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:10px!important;
+  flex-wrap:nowrap!important;
+}
+.wp-app .wp-map-headline .wp-map-toolbar{display:contents!important}
+.wp-app .wp-map-headline .wp-map-tools.wp-provider-tools{
+  flex:0 0 auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  width:auto!important;
+  margin:0!important;
+  overflow:visible!important;
+  flex-wrap:nowrap!important;
+}
+.wp-app .wp-map-headline .wp-map-timeline{
+  flex:0 1 430px!important;
+  width:auto!important;
+  max-width:430px!important;
+  min-width:220px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin:0!important;
+  overflow:hidden!important;
+}
+.wp-app .wp-map-headline .wp-map-timeline input[type="range"]{
+  flex:1 1 240px!important;
+  min-width:120px!important;
+  max-width:none!important;
+}
+.wp-app .wp-map-headline .wp-map-timeline .wp-muted{
+  flex:0 0 auto!important;
+  min-width:0!important;
+  white-space:nowrap!important;
+  font-size:11px!important;
+  opacity:.72!important;
+}
+.wp-app .wp-map-time{
+  flex:0 0 auto!important;
+  white-space:nowrap!important;
+  font-size:12px!important;
+  opacity:.72!important;
+  min-width:42px!important;
+  text-align:right!important;
+}
+.wp-app .wp-map-headline .wp-wind-levels{
+  flex:0 1 auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  padding:0!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  max-width:min(520px,38vw)!important;
+  scrollbar-width:none!important;
+}
+.wp-app .wp-map-headline .wp-wind-levels::-webkit-scrollbar{display:none!important}
+.wp-app .wp-map-headline .wp-wind-levels button,
+.wp-app .wp-map-headline .wp-wind-levels-label{flex:0 0 auto!important;white-space:nowrap!important}
+.wp-app .wp-map-headline .wp-map-tools.wp-provider-tools select{height:32px!important;max-width:170px!important}
+.wp-app .wp-map-headline .wp-map-external{min-height:32px!important}
+.wp-app .wp-weather-map,
+.wp-app .wp-weather-map *{scrollbar-width:none!important}
+.wp-app .wp-weather-map::-webkit-scrollbar,
+.wp-app .wp-weather-map *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+/* Hide non-control Core/Leaflet overlay chrome used only for generic map demos. Weather provides its own legends. */
+.wp-app .wp-weather-map .hc-shared-app-core-map__compass,
+.wp-app .wp-weather-map [class*="compass"],
+.wp-app .wp-weather-map [class*="rose"],
+.wp-app .wp-weather-map [class*="bearing"],
+.wp-app .wp-weather-map [data-core-map-scale],
+.wp-app .wp-weather-map [data-core-map-bearing],
+.wp-app .wp-weather-map [data-core-map-rose],
+.wp-app .wp-weather-map [data-core-map-compass-overlay]{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+@media (max-width:1100px){
+  .wp-app .wp-map-headline{flex-wrap:wrap!important;align-items:flex-start!important}
+  .wp-app .wp-map-headline h3{flex:1 1 100%!important}
+  .wp-app .wp-map-headline-controls{justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important}
+  .wp-app .wp-map-headline .wp-map-timeline{flex:1 1 100%!important;max-width:620px!important;min-width:0!important;order:20}
+  .wp-app .wp-map-time{margin-left:auto!important}
+}
+@media (max-width:760px){
+  .wp-app .wp-map-headline{gap:8px!important;margin-bottom:6px!important}
+  .wp-app .wp-map-headline h3{white-space:normal!important;gap:8px!important}
+  .wp-app .wp-map-headline-controls{gap:7px!important;overflow:visible!important}
+  .wp-app .wp-map-headline .wp-map-tools.wp-provider-tools{flex:1 1 100%!important;justify-content:flex-start!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+  .wp-app .wp-map-headline .wp-map-tools.wp-provider-tools select{flex:1 1 145px!important;min-width:135px!important;max-width:none!important}
+  .wp-app .wp-map-headline .wp-map-external{flex:0 0 auto!important}
+  .wp-app .wp-map-headline .wp-map-timeline{flex:1 1 100%!important;max-width:none!important;width:100%!important;order:30}
+  .wp-app .wp-map-headline .wp-map-timeline .wp-muted{white-space:normal!important;font-size:10px!important}
+  .wp-app .wp-map-time{font-size:11px!important}
+  .wp-app .wp-map-headline .wp-wind-levels{max-width:100%!important;width:100%!important;order:10}
+}
+
+/* v0.14.6 – fix map height after moving all map controls into one title row.
+   Older grid rules expected separate toolbar/timeline rows, so the map was placed
+   into an auto row and collapsed into a thin stripe. Keep the shared Core layout
+   outside; Weather only controls the internal card content here. */
+@media (min-width:761px){
+  .wp-app #wp-tab-weather-map.hc-shared-app-core-view:not([hidden]){
+    display:flex!important;
+    flex-direction:column!important;
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .wp-app #wp-tab-weather-map > .wp-map-section.hc-shared-app-core-surface{
+    display:flex!important;
+    flex-direction:column!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    overflow:hidden!important;
+    gap:10px!important;
+  }
+  .wp-app #wp-tab-weather-map .wp-map-headline{
+    flex:0 0 auto!important;
+    min-height:34px!important;
+    margin-bottom:4px!important;
+  }
+  .wp-app #wp-radar-map.wp-weather-map.hc-shared-app-core-surface{
+    flex:1 1 auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:360px!important;
+    max-height:none!important;
+    align-self:stretch!important;
+  }
+  .wp-app #wp-wind-map.wp-weather-map.hc-shared-app-core-surface,
+  .wp-app #wp-storm-map.wp-weather-map.hc-shared-app-core-surface{
+    flex:1 1 auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:300px!important;
+    max-height:none!important;
+    align-self:stretch!important;
+  }
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-map-detail-heading,
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-wind-current,
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-storm-summary,
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-wind-hours,
+  .wp-app :is(#wp-tab-wind,#wp-tab-storms) .wp-storm-hours{
+    flex:0 0 auto!important;
+  }
+}
+@media (min-width:761px) and (max-height:760px){
+  .wp-app #wp-radar-map.wp-weather-map.hc-shared-app-core-surface{min-height:260px!important}
+  .wp-app #wp-wind-map.wp-weather-map.hc-shared-app-core-surface,
+  .wp-app #wp-storm-map.wp-weather-map.hc-shared-app-core-surface{min-height:230px!important}
+}
+@media (min-width:761px) and (max-height:620px){
+  .wp-app #wp-radar-map.wp-weather-map.hc-shared-app-core-surface{min-height:190px!important}
+  .wp-app #wp-wind-map.wp-weather-map.hc-shared-app-core-surface,
+  .wp-app #wp-storm-map.wp-weather-map.hc-shared-app-core-surface{min-height:170px!important}
+}
+
+/* v0.14.7 – unified map playback row.
+   Playback button and timeline must stay together directly after the card title;
+   provider/time controls follow in the same wrapping row. */
+.wp-app .wp-map-headline.wp-section-title-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  flex-wrap:wrap!important;
+  margin-bottom:8px!important;
+}
+.wp-app .wp-map-headline.wp-section-title-actions h3{
+  flex:0 0 auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+.wp-app .wp-map-headline-controls{
+  flex:1 1 auto!important;
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:9px!important;
+  flex-wrap:wrap!important;
+}
+.wp-app .wp-map-headline .wp-title-play{
+  order:1!important;
+  flex:0 0 auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-height:32px!important;
+  padding:5px 10px!important;
+  border-radius:9px!important;
+  font-size:13px!important;
+  line-height:1.2!important;
+  white-space:nowrap!important;
+}
+.wp-app .wp-map-headline .wp-title-play.active{
+  filter:brightness(1.16);
+}
+.wp-app .wp-map-headline .wp-map-timeline{
+  order:2!important;
+  flex:0 1 430px!important;
+  width:auto!important;
+  max-width:430px!important;
+  min-width:230px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin:0!important;
+  overflow:visible!important;
+}
+.wp-app .wp-map-headline .wp-map-timeline input[type="range"]{
+  flex:1 1 240px!important;
+  min-width:150px!important;
+  max-width:none!important;
+}
+.wp-app .wp-map-headline .wp-map-timeline .wp-muted{
+  flex:0 0 auto!important;
+  white-space:nowrap!important;
+  font-size:11px!important;
+  opacity:.72!important;
+}
+.wp-app .wp-map-headline .wp-wind-levels{
+  order:3!important;
+  flex:0 1 auto!important;
+  max-width:min(560px,42vw)!important;
+}
+.wp-app .wp-map-headline .wp-map-tools.wp-provider-tools{
+  order:4!important;
+  flex:0 0 auto!important;
+  margin-left:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  flex-wrap:nowrap!important;
+}
+.wp-app .wp-map-headline .wp-map-time{
+  order:5!important;
+  flex:0 0 auto!important;
+  min-width:42px!important;
+  text-align:right!important;
+  white-space:nowrap!important;
+}
+@media (max-width:1200px){
+  .wp-app .wp-map-headline.wp-section-title-actions h3{flex:1 1 100%!important;}
+  .wp-app .wp-map-headline-controls{width:100%!important;}
+  .wp-app .wp-map-headline .wp-map-tools.wp-provider-tools{margin-left:0!important;}
+}
+@media (max-width:760px){
+  .wp-app .wp-map-headline .wp-map-timeline{flex:1 1 100%!important;min-width:0!important;max-width:none!important;width:100%!important;}
+  .wp-app .wp-map-headline .wp-map-timeline .wp-muted{white-space:normal!important;}
+  .wp-app .wp-map-headline .wp-wind-levels{flex:1 1 100%!important;max-width:100%!important;overflow-x:auto!important;}
+  .wp-app .wp-map-headline .wp-map-tools.wp-provider-tools{flex:1 1 100%!important;overflow-x:auto!important;}
+}
+
+
+/* administrator default location helper and Core home safety. */
+.wp-app .wp-admin-search{display:grid;gap:6px;margin:10px 0 12px;padding:10px;border:1px solid var(--color-border);border-radius:10px;background:var(--color-background-hover)}
+.wp-app .wp-admin-search label{display:grid;gap:5px}
+.wp-app .wp-admin-search input{width:100%}
+.wp-app .wp-admin-search .wp-location-results{max-height:150px}
+
+
+/* settings modal fit and draggable dialog. */
+.wp-app .wp-overlay{
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+    padding:12px !important;
+}
+.wp-app .wp-modal,
+.wp-app .wp-modal *{
+    box-sizing:border-box;
+}
+.wp-app .wp-modal{
+    width:min(760px, calc(var(--wp-vv-width,100vw) - 24px)) !important;
+    max-width:calc(var(--wp-vv-width,100vw) - 24px) !important;
+    overflow:hidden !important;
+    touch-action:none;
+}
+.wp-app .wp-modal-title{
+    cursor:move;
+    user-select:none;
+    touch-action:none;
+}
+.wp-app .wp-modal-title button,
+.wp-app .wp-modal-title input,
+.wp-app .wp-modal-title select,
+.wp-app .wp-modal-title textarea,
+.wp-app .wp-modal-title a{
+    cursor:auto;
+}
+.wp-app .wp-settings-body{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding-right:0 !important;
+}
+.wp-app .wp-settings-tabs{
+    overflow-x:auto;
+    overflow-y:hidden;
+}
+.wp-app .wp-saved-row{
+    width:100%;
+    max-width:100%;
+    overflow:hidden;
+}
+.wp-app .wp-active-location-card-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:8px;
+}
+.wp-app .wp-admin-jump[hidden]{display:none!important}
+.wp-app .wp-admin-jump{
+    width:max-content;
+    max-width:100%;
+}
+.wp-app .wp-modal-footer{
+    overflow:hidden;
+}
+@media (max-width:760px){
+    .wp-app .wp-overlay{padding:6px!important;align-items:flex-start!important;justify-content:center!important;overflow:auto!important}
+    .wp-app .wp-modal{width:100%!important;max-width:100%!important;touch-action:auto}
+    .wp-app .wp-modal-title{cursor:default;touch-action:auto}
+}
+
+
+/* detached location search results for settings dialog. */
+.wp-app .wp-admin-search .wp-location-results,
+.wp-app #wp-location-results{
+    display:none !important;
+}
+.wp-app .wp-floating-location-results{
+    position:fixed;
+    z-index:12050;
+    display:grid;
+    gap:4px;
+    min-width:220px;
+    max-width:calc(var(--wp-vv-width,100vw) - 20px);
+    overflow:auto;
+    padding:7px;
+    border:1px solid var(--color-border);
+    border-radius:12px;
+    background:var(--color-main-background);
+    box-shadow:0 14px 42px rgba(0,0,0,.38);
+    box-sizing:border-box;
+}
+.wp-app .wp-floating-location-results[hidden]{display:none!important}
+.wp-app .wp-floating-location-results button{
+    display:grid!important;
+    gap:2px;
+    width:100%;
+    text-align:left!important;
+    padding:9px 10px!important;
+    border:0!important;
+    border-radius:9px!important;
+    background:var(--color-background-hover)!important;
+}
+.wp-app .wp-floating-location-results button:hover,
+.wp-app .wp-floating-location-results button:focus{
+    background:var(--color-primary-element-light)!important;
+}
+.wp-app .wp-floating-location-results strong{font-size:14px;line-height:1.25}
+.wp-app .wp-floating-location-results small{font-size:12px;line-height:1.25;opacity:.72;white-space:normal}
+
+
+/* settings dialog final desktop cleanup. */
+.wp-app .wp-overlay{
+    align-items:center !important;
+    justify-content:center !important;
+}
+.wp-app .wp-modal{
+    width:min(820px, calc(var(--wp-vv-width,100vw) - 32px)) !important;
+    max-width:calc(var(--wp-vv-width,100vw) - 32px) !important;
+    height:calc(var(--wp-vv-height,100dvh) - 44px) !important;
+    max-height:calc(var(--wp-vv-height,100dvh) - 44px) !important;
+}
+.wp-app .wp-settings-body{
+    flex:1 1 auto !important;
+}
+.wp-app .wp-user-mapy{display:grid;gap:8px}
+.wp-app .wp-user-mapy label{display:grid;gap:5px}
+.wp-app .wp-user-mapy .wp-checkbox{display:flex;align-items:center;gap:7px}
+.wp-app .wp-user-mapy input[type=password]{width:min(100%,520px)}
+.wp-app #wp-save-admin{display:none!important}
+@media (max-width:760px){
+    .wp-app .wp-modal{
+        width:100%!important;
+        max-width:100%!important;
+        height:calc(var(--wp-vv-height,100dvh) - 12px)!important;
+        max-height:calc(var(--wp-vv-height,100dvh) - 12px)!important;
+    }
+}
+
+/* 0.17.4: one shared weather map + application overlays */
+.wp-app #wp-tab-weather-map > .wp-weather-map-section.hc-shared-app-core-surface{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:8px!important;
+  min-height:calc(100dvh - 145px)!important;
+  height:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+.wp-app .wp-map-layer-switch{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  flex:0 0 auto!important;
+  max-width:100%!important;
+  overflow-x:auto!important;
+  scrollbar-width:thin!important;
+}
+.wp-app .wp-map-layer-switch button{
+  min-height:32px!important;
+  padding:5px 10px!important;
+  border-radius:999px!important;
+  white-space:nowrap!important;
+  flex:0 0 auto!important;
+}
+.wp-app .wp-map-layer-switch button.active{
+  background:var(--color-primary-element)!important;
+  color:var(--color-primary-element-text)!important;
+}
+.wp-app .wp-map-layer-switch button.selected{
+  outline:2px solid var(--color-main-text)!important;
+  outline-offset:2px;
+}
+.wp-app #wp-wind-canvas{z-index:4}
+.wp-app .wp-layer-controls{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  min-width:0!important;
+  flex:1 1 360px!important;
+  flex-wrap:nowrap!important;
+}
+.wp-app .wp-layer-controls[hidden]{display:none!important}
+.wp-app .wp-layer-controls .wp-map-timeline{
+  flex:1 1 260px!important;
+  min-width:160px!important;
+  max-width:480px!important;
+  margin:0!important;
+}
+.wp-app .wp-map-headline .wp-provider-tools{
+  flex:0 0 auto!important;
+}
+.wp-app #wp-weather-map.wp-unified-weather-map{
+  flex:1 1 auto!important;
+  height:auto!important;
+  min-height:320px!important;
+  max-height:none!important;
+  margin-top:2px!important;
+}
+.wp-app #wp-radar-layer[hidden],
+.wp-app #wp-wind-canvas[hidden],
+.wp-app #wp-storm-canvas[hidden],
+.wp-app [data-layer-detail][hidden]{display:none!important}
+.wp-app .wp-map-layer-detail{
+  flex:0 0 auto!important;
+  min-width:0!important;
+  margin-top:2px!important;
+  padding-top:8px!important;
+  border-top:1px solid color-mix(in srgb,var(--color-border) 65%,transparent)!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+@media (max-width:760px){
+  .wp-app #wp-tab-weather-map > .wp-weather-map-section.hc-shared-app-core-surface{
+    min-height:auto!important;
+    overflow:visible!important;
+  }
+  .wp-app .wp-map-layer-switch{width:100%!important}
+  .wp-app .wp-layer-controls{
+    flex:1 1 100%!important;
+    width:100%!important;
+    flex-wrap:wrap!important;
+  }
+  .wp-app .wp-layer-controls .wp-map-timeline{
+    flex:1 1 100%!important;
+    max-width:none!important;
+    min-width:0!important;
+  }
+  .wp-app .wp-map-headline .wp-provider-tools{
+    width:100%!important;
+    flex:1 1 100%!important;
+  }
+  .wp-app #wp-weather-map.wp-unified-weather-map{
+    height:48svh!important;
+    min-height:260px!important;
+    max-height:430px!important;
+    flex:none!important;
+  }
+}
+@media (orientation:landscape) and (max-height:620px){
+  .wp-app #wp-weather-map.wp-unified-weather-map{
+    height:46svh!important;
+    min-height:170px!important;
+    max-height:300px!important;
+  }
+}
+
+/* One height owner: Core root; only the active content scrolls. */
+#wp-app.wp-app{display:flex!important;flex-direction:column!important;height:var(--hc-shared-app-core-available-height,calc(100dvh - 50px))!important;min-height:0!important;overflow:hidden!important;touch-action:auto!important}
+#wp-app.wp-app > .wp-header{flex:0 0 auto!important}
+#wp-app.wp-app > .wp-main{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important}
+#wp-app.wp-app .wp-view{flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:auto!important;touch-action:auto!important}
+#wp-app.wp-app .wp-view.hc-shared-app-core-scroll-area{overscroll-behavior-x:auto!important}
+#wp-app.wp-app .wp-view[hidden]{display:none!important}
+#wp-app.wp-app #wp-tab-weather-map > .wp-weather-map-section{display:flex!important;flex-direction:column!important;min-height:0!important;height:100%!important;overflow:auto!important;overscroll-behavior-x:auto!important}
+#wp-app.wp-app #wp-weather-map.wp-unified-weather-map{flex:1 0 220px!important;min-height:220px!important;height:auto!important;max-height:none!important}
+@media(max-height:500px){#wp-app.wp-app #wp-weather-map.wp-unified-weather-map{flex-basis:160px!important;min-height:160px!important}}
+
+#wp-app.wp-app #wp-weather-map{touch-action:none!important}
+
+
+/* 0.17.6: Core 0.17.0 location tracking/follow state */
+.wp-app .wp-map-follow{
+  width:auto!important;
+  min-width:112px!important;
+  min-height:32px!important;
+  padding:5px 9px!important;
+  font-size:13px!important;
+  white-space:nowrap!important;
+}
+.wp-app .wp-map-follow.active{
+  background:var(--color-primary-element)!important;
+  color:var(--color-primary-element-text)!important;
+}
+.wp-app .wp-location-marker-live{
+  color:#1f8fff!important;
+  text-shadow:0 0 3px #fff,0 0 10px rgba(31,143,255,.85)!important;
+}
+.wp-app .wp-location-marker-live::after{
+  content:'';
+  position:absolute;
+  left:50%;top:50%;
+  width:22px;height:22px;
+  border:2px solid currentColor;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  opacity:.45;
+}
+@media (max-width:760px){
+  .wp-app .wp-map-follow{flex:0 0 auto!important;min-width:auto!important;}
+}
+
+/* Map navigation and timeline stay on the map; phone navigation opens on demand. */
+#wp-app #wp-mobile-nav{display:contents}
+#wp-app #wp-mobile-menu{display:none}
+#wp-app #wp-mobile-nav-backdrop{display:none}
+#wp-app #wp-mobile-nav-backdrop[hidden]{display:none!important}
+#wp-app .wp-map-headline-controls:empty{display:none!important}
+#wp-app #wp-weather-map > .wp-map-layer-switch{
+  position:absolute!important;z-index:40!important;top:9px;left:9px;
+  display:flex!important;width:max-content;max-width:calc(100% - 135px)!important;
+  padding:4px!important;overflow-x:auto!important;flex-wrap:nowrap!important;
+  border-radius:10px;background:color-mix(in srgb,var(--color-main-background) 88%,transparent);
+  box-shadow:0 2px 10px #0005;
+}
+#wp-app #wp-weather-map > .wp-layer-controls:not([hidden]){
+  position:absolute!important;z-index:40!important;left:8px;right:8px;bottom:8px;
+  display:flex!important;width:auto!important;max-width:none!important;min-width:0!important;
+  flex-wrap:wrap!important;gap:6px!important;padding:6px!important;
+  border-radius:10px;background:color-mix(in srgb,var(--color-main-background) 90%,transparent);
+}
+#wp-app #wp-weather-map > .wp-layer-controls .wp-map-timeline{flex:1 1 180px!important;min-width:90px!important;max-width:none!important;margin:0!important}
+#wp-app #wp-map-options-toggle{
+  position:absolute!important;z-index:42!important;right:8px;top:62px;display:grid!important;place-items:center;
+  width:38px;min-width:38px!important;height:38px;min-height:38px!important;padding:0!important;
+  border-radius:9px;background:var(--color-main-background);box-shadow:0 2px 8px #0006;
+}
+#wp-app #wp-map-options.wp-provider-tools{display:none!important}
+#wp-app #wp-map-options.wp-provider-tools.is-open{
+  position:absolute!important;z-index:43!important;top:105px;right:8px;
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;width:min(230px,calc(100% - 16px))!important;
+  margin:0!important;padding:9px!important;overflow:visible!important;border-radius:10px;
+  background:var(--color-main-background);box-shadow:0 6px 22px #0007;
+}
+#wp-app #wp-map-options select{max-width:100%!important}
+#wp-app #wp-weather-map .hc-shared-app-core-map__controls{
+  width:max-content!important;max-width:fit-content!important;min-width:0!important;
+  background:transparent!important;box-shadow:none!important;
+}
+@media(max-width:760px){
+  #wp-app > .wp-header{display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:6px!important;padding:5px 8px!important;min-height:56px!important}
+  #wp-app .wp-brand{min-width:0!important;flex:1 1 0!important}
+  #wp-app .wp-brand p{max-width:none!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #wp-app #wp-mobile-menu{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 44px;min-height:44px!important;font-size:22px}
+  #wp-app #wp-mobile-nav{
+    display:flex!important;position:fixed!important;z-index:10012!important;top:var(--header-height,50px);left:0;bottom:0;
+    width:min(320px,calc(100vw - 44px))!important;padding:18px!important;overflow-y:auto!important;
+    flex-direction:column!important;gap:20px!important;background:var(--color-main-background)!important;
+    border-right:1px solid var(--color-border)!important;transform:translateX(-110%);transition:transform .2s ease;
+  }
+  #wp-app #wp-mobile-nav.is-open{transform:translateX(0)}
+  #wp-app #wp-mobile-nav .wp-tabs{display:flex!important;flex-direction:column!important;align-items:stretch!important;order:0!important;width:100%!important;flex:none!important;overflow:visible!important}
+  #wp-app #wp-mobile-nav .wp-header-actions{display:flex!important;flex-direction:column!important;width:100%!important;align-items:stretch!important}
+  #wp-app #wp-mobile-nav-backdrop:not([hidden]){display:block;position:fixed;z-index:10011;inset:var(--header-height,50px) 0 0;width:100%;border:0;background:#0008}
+  #wp-app #wp-tab-weather-map .wp-map-headline{display:none!important}
+  #wp-app #wp-tab-weather-map > .wp-weather-map-section{padding:4px!important;gap:4px!important}
+  #wp-app #wp-weather-map.wp-unified-weather-map{flex:1 0 55svh!important;min-height:300px!important;height:100%!important;max-height:none!important}
+  #wp-app #wp-weather-map > .wp-map-layer-switch{max-width:calc(100% - 62px)!important;gap:3px!important}
+  #wp-app #wp-weather-map > .wp-map-layer-switch button{min-height:38px!important;padding:5px 7px!important;font-size:12px!important}
+  #wp-app #wp-weather-map > .wp-layer-controls:not([hidden]){bottom:5px;left:5px;right:5px;padding:5px!important}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-map-timeline{display:flex!important;flex:1 1 140px!important;gap:4px!important}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-map-timeline .wp-muted{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap!important}
+}
+
+/* The pick card is mounted before a point is selected. Its display rule must
+   respect the hidden attribute; otherwise the empty card looks like a dark bar. */
+#wp-app #wp-weather-map .wp-map-click-card[hidden],
+#wp-app #wp-weather-map .wp-picked-marker[hidden]{display:none!important}
+#wp-app #wp-weather-map .wp-map-pick-heading{display:flex;align-items:flex-start;gap:6px;min-width:0}
+#wp-app #wp-weather-map .wp-map-pick-heading .wp-map-pick-switch{flex:1 1 auto;min-width:0}
+#wp-app #wp-weather-map .wp-map-pick-close{flex:0 0 34px;min-width:34px;min-height:34px;padding:0!important;font-size:22px;line-height:1;border-radius:8px}
+
+/* Compact floating navigation, anchored to the Weather header. */
+@media(max-width:760px){
+  #wp-app > .wp-header{position:relative!important;z-index:10012!important}
+  #wp-app #wp-mobile-nav{
+    position:absolute!important;top:calc(100% + 4px)!important;right:4px!important;left:auto!important;bottom:auto!important;
+    width:min(280px,calc(100% - 8px))!important;max-height:min(420px,calc(var(--wp-vv-height,100dvh) - 100px))!important;
+    padding:10px!important;gap:8px!important;overflow:auto!important;
+    border:1px solid var(--color-border)!important;border-radius:12px!important;
+    box-shadow:0 10px 32px #0008!important;transform:translateY(-8px)!important;
+    opacity:0;visibility:hidden;pointer-events:none;
+  }
+  #wp-app #wp-mobile-nav.is-open{transform:none!important;opacity:1;visibility:visible;pointer-events:auto}
+  #wp-app #wp-mobile-nav .wp-tabs{gap:4px!important;padding:0 0 8px!important;border-bottom:1px solid var(--color-border)}
+  #wp-app #wp-mobile-nav .wp-tabs button,
+  #wp-app #wp-mobile-nav .wp-header-actions button{flex:0 0 auto!important;width:100%!important;min-height:44px!important;height:auto!important;text-align:left!important;padding:8px 12px!important}
+  #wp-app #wp-mobile-nav .wp-header-actions{gap:4px!important}
+  #wp-app #wp-settings-overlay{z-index:10020!important}
+}
+
+/* 0.17.14: the phone header has a dedicated right-hand menu cell. */
+.wp-app .wp-detail-toggle{display:none}
+@media(max-width:760px){
+  #wp-app > .wp-header.hc-shared-app-core-layout__header{
+    display:grid!important;grid-template-columns:minmax(0,1fr) 44px!important;
+    grid-template-rows:auto!important;align-items:center!important;gap:6px!important;
+    width:100%!important;padding:5px 8px!important;margin:0!important;
+  }
+  #wp-app > .wp-header > .wp-brand{
+    grid-column:1!important;grid-row:1!important;width:auto!important;max-width:100%!important;
+    min-width:0!important;order:0!important;flex:none!important;
+  }
+  #wp-app > .wp-header > #wp-mobile-menu{
+    grid-column:2!important;grid-row:1!important;justify-self:end!important;
+    width:44px!important;min-width:44px!important;margin:0!important;order:0!important;
+  }
+  #wp-app > .wp-header > #wp-mobile-nav{grid-column:1/-1!important;grid-row:1!important}
+  #wp-app #wp-tab-weather-map > .wp-weather-map-section{
+    height:100%!important;min-height:0!important;overflow:auto!important;
+  }
+  #wp-app #wp-weather-map.wp-unified-weather-map{
+    flex:1 1 auto!important;height:auto!important;
+    min-height:max(300px,calc(var(--hc-shared-app-core-available-height,100svh) - 180px))!important;
+  }
+  #wp-app .wp-map-layer-detail{padding-top:3px!important;margin-top:0!important}
+  #wp-app .wp-map-layer-detail .wp-map-detail-heading{
+    display:flex!important;align-items:center!important;justify-content:space-between!important;
+    margin:0 0 2px!important;gap:6px!important;
+  }
+  #wp-app .wp-map-layer-detail .wp-detail-toggle{
+    display:inline-flex!important;align-items:center;gap:5px;min-height:34px!important;
+    padding:3px 8px!important;font-size:11px!important;
+  }
+  #wp-app .wp-map-layer-detail .wp-detail-toggle span{font-size:17px;line-height:1}
+  #wp-app .wp-map-layer-detail.is-expanded .wp-detail-toggle span{transform:rotate(180deg)}
+  #wp-app .wp-map-layer-detail:not(.is-expanded) .wp-wind-hours,
+  #wp-app .wp-map-layer-detail:not(.is-expanded) .wp-storm-hours{display:none!important}
+  #wp-app .wp-map-layer-detail .wp-wind-current,
+  #wp-app .wp-map-layer-detail .wp-storm-summary{margin-bottom:0!important}
+  #wp-app .wp-map-layer-detail .wp-wind-current{padding:5px 8px!important;gap:7px!important}
+  #wp-app .wp-map-layer-detail .wp-wind-arrow{font-size:26px!important}
+  #wp-app .wp-map-layer-detail .wp-wind-current strong{font-size:17px!important}
+  #wp-app .wp-map-layer-detail .wp-storm-level{padding:5px 8px!important;gap:6px!important}
+  #wp-app .wp-map-layer-detail .wp-storm-level>span{font-size:22px!important}
+  #wp-app .wp-map-layer-detail .wp-storm-level strong{font-size:15px!important}
+  #wp-app .wp-map-layer-detail .wp-storm-level em{font-size:10px!important}
+  #wp-app #wp-weather-map > .wp-layer-controls:not([hidden]){
+    display:grid!important;grid-template-columns:38px minmax(0,1fr) auto!important;
+    align-items:center!important;gap:4px!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-title-play{
+    grid-column:1!important;grid-row:1!important;width:38px!important;min-width:38px!important;
+    min-height:36px!important;font-size:0!important;padding:0!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-title-play::before{content:'▶';font-size:17px}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-title-play[data-playing="1"]::before{content:'⏸'}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-map-timeline{
+    grid-column:2!important;grid-row:1!important;display:block!important;
+    width:100%!important;min-width:0!important;max-width:none!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-map-timeline input{width:100%!important;min-width:0!important}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-map-timeline .wp-muted{display:none!important}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-map-timeline .wp-muted.is-error{
+    display:block!important;max-width:none!important;white-space:normal!important;
+    overflow:visible!important;font-size:11px!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-map-time{
+    grid-column:3!important;grid-row:1!important;white-space:nowrap!important;
+    font-size:10px!important;max-width:92px!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-wind-levels{
+    grid-column:1/-1!important;grid-row:2!important;width:100%!important;
+    min-width:0!important;max-width:100%!important;padding:0!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-wind-levels button{min-height:32px!important;padding:3px 8px!important}
+}
+@media(max-width:760px) and (max-height:500px){
+  #wp-app #wp-weather-map.wp-unified-weather-map{min-height:160px!important}
+}
+
+/* 0.17.18: Mobile map controls are compact; tendencies open over the map. */
+#wp-app #wp-weather-map .wp-compact-tools-toggle,
+#wp-app #wp-weather-map #wp-map-tendency-toggle{display:none!important}
+@media (max-width:760px), (orientation:landscape) and (max-height:620px) and (max-width:980px){
+  #wp-app #wp-tab-weather-map > .wp-weather-map-section{position:relative!important}
+  #wp-app #wp-weather-map > #wp-map-tendency-toggle:not([hidden]){
+    display:grid!important;position:absolute!important;z-index:51!important;
+    left:9px;top:67px;place-items:center;
+    width:42px;min-width:42px!important;height:42px;min-height:42px!important;
+    border-radius:12px;border:1px solid var(--color-border);
+    background:var(--color-main-background);box-shadow:0 2px 10px #0006;
+    font-size:20px!important;padding:0!important;
+  }
+  #wp-app #wp-weather-map > #wp-map-tendency-toggle[aria-expanded="true"]{
+    outline:2px solid var(--color-primary-element);outline-offset:1px;
+  }
+  #wp-app #wp-tab-weather-map > .wp-weather-map-section > .wp-map-layer-detail[hidden]{display:none!important}
+  #wp-app #wp-tab-weather-map > .wp-weather-map-section > .wp-map-layer-detail:not([hidden]){
+    display:none!important;position:absolute!important;z-index:51!important;
+    left:7px;right:7px;bottom:58px;
+    width:auto!important;max-height:min(38svh,290px);
+    overflow:auto!important;overscroll-behavior:contain;
+    padding:9px!important;border:1px solid var(--color-border)!important;
+    border-radius:12px;background:var(--color-main-background)!important;
+    box-shadow:0 5px 22px #0009!important;
+  }
+  #wp-app #wp-tab-weather-map > .wp-weather-map-section > .wp-map-layer-detail.is-floating-open:not([hidden]){display:block!important}
+  #wp-app #wp-tab-weather-map > .wp-weather-map-section:has(#wp-weather-map > .wp-layer-controls.is-expanded:not([hidden])) > .wp-map-layer-detail.is-floating-open:not([hidden]){bottom:110px}
+  #wp-app #wp-weather-map > .wp-layer-controls:not([hidden]):not(.is-expanded){
+    display:flex!important;align-items:center!important;gap:5px!important;
+    left:7px!important;right:auto!important;bottom:7px!important;
+    width:auto!important;max-width:max-content!important;
+    padding:0!important;border:0!important;background:transparent!important;
+    box-shadow:none!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls:not(.is-expanded) .wp-map-timeline,
+  #wp-app #wp-weather-map > .wp-layer-controls:not(.is-expanded) .wp-map-time,
+  #wp-app #wp-weather-map > .wp-layer-controls:not(.is-expanded) .wp-wind-levels{display:none!important}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-compact-tools-toggle{
+    display:grid!important;place-items:center;order:2;
+    width:38px!important;min-width:38px!important;height:38px!important;
+    min-height:38px!important;padding:0!important;font-size:23px!important;
+    border-radius:10px;background:var(--color-main-background);
+    box-shadow:0 2px 10px #0006;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-title-play{
+    order:1;min-height:38px!important;border-radius:10px;
+    background:var(--color-main-background);box-shadow:0 2px 10px #0006;
+    font-size:0!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-title-play::before{content:'▶';font-size:17px}
+  #wp-app #wp-weather-map > .wp-layer-controls .wp-title-play[data-playing="1"]::before{content:'⏸'}
+  #wp-app #wp-weather-map > .wp-layer-controls.is-expanded:not([hidden]){
+    display:grid!important;grid-template-columns:38px 38px minmax(0,1fr) auto!important;
+    align-items:center!important;gap:5px!important;
+    left:7px!important;right:7px!important;bottom:7px!important;
+    padding:6px!important;background:var(--color-main-background)!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls.is-expanded .wp-title-play{
+    grid-row:1!important;grid-column:1!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls.is-expanded .wp-compact-tools-toggle{
+    grid-row:1!important;grid-column:2!important;box-shadow:none!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls.is-expanded .wp-map-timeline{
+    display:block!important;grid-row:1!important;grid-column:3!important;
+    margin:0!important;width:100%!important;min-width:0!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls.is-expanded .wp-map-time{
+    display:block!important;grid-row:1!important;grid-column:4!important;
+    max-width:72px!important;white-space:nowrap!important;
+    overflow:hidden;text-overflow:ellipsis;font-size:10px!important;
+  }
+  #wp-app #wp-weather-map > .wp-layer-controls.is-expanded .wp-wind-levels{
+    display:flex!important;grid-row:2!important;grid-column:1/-1!important;
+    width:100%!important;overflow-x:auto!important;
+  }
+}
+
+/* ALADIN uses the existing Core map viewport and Weather's own forecast canvas. */
+#wp-app #wp-aladin-canvas{z-index:3;pointer-events:none}
+#wp-app #wp-aladin-canvas[hidden]{display:none!important}
+#wp-app #wp-weather-map > .wp-layer-controls[data-layer-controls="aladin"] .wp-aladin-metrics{
+  display:flex;align-items:center;gap:5px;flex:1 1 100%;min-width:0;
+}
+#wp-app .wp-aladin-metrics button{min-height:32px!important;border-radius:999px!important;padding:4px 10px!important}
+#wp-app .wp-aladin-metrics button.active{background:var(--color-primary-element)!important;color:var(--color-primary-element-text)!important}
+#wp-app .wp-aladin-detail{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px}
+#wp-app .wp-aladin-detail[hidden]{display:none!important}
+#wp-app .wp-aladin-detail small{opacity:.76}
+#wp-app .wp-aladin-colorbar{width:min(280px,100%);height:13px;border-radius:99px;background:linear-gradient(90deg,transparent,#37aff6,#187ce8,#5841ce,#dc2d61,#fe9620)}
+#wp-app .wp-aladin-colorbar.is-temperature{background:linear-gradient(90deg,#4d308e,#336dcb,#54cee5,#51be73,#f9d843,#ec5a2d,#a3233d)}
+@media (max-width:760px), (orientation:landscape) and (max-height:620px) and (max-width:980px){
+  #wp-app #wp-weather-map > .wp-layer-controls[data-layer-controls="aladin"]:not(.is-expanded) .wp-aladin-metrics{display:none!important}
+  #wp-app #wp-weather-map > .wp-layer-controls[data-layer-controls="aladin"].is-expanded .wp-aladin-metrics{display:flex!important;grid-row:2!important;grid-column:1/-1!important;overflow-x:auto}
+  #wp-app .wp-aladin-detail{display:none!important}
+  #wp-app .wp-aladin-detail.is-floating-open:not([hidden]){display:flex!important}
+}
