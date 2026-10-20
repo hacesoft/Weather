@@ -1,7 +1,5 @@
 **Česky** | [English](README.md)
 
-> **Vstupní archiv pro Publisher:** Tento ZIP má výslednou strukturu s jediným kořenovým adresářem aplikace. Neobsahuje NAS nástroje (`install.sh`, `uninstall.sh`, `build-release.sh`, `scripts/`). Návody, které je zmiňují, platí pro samostatný úplný zdrojový repozitář, nikoli pro tento archiv. Podepsaný `.tar.gz` pro App Store vytváří až Hacesoft Publisher.
-
 
 # Počasí pro Nextcloud
 
@@ -38,7 +36,3 @@ Licence **AGPL-3.0-or-later**; viz [LICENSE](LICENSE).
 [ALADIN](docs/cz/ALADIN.md) · [Widget přehledu a Androidu](docs/cz/ANDROID_WIDGET.md) · [Mobilní rozložení](docs/cz/MOBILNI_LAYOUT.md)
 
 Bouřkový potenciál je odhad modelu. Zobrazení výstrah je připravené pro samostatného poskytovatele, zatím nejde o funkční výstražnou službu.
-
-## Úplný zdrojový balíček a Hacesoft Publisher
-
-Balíček pro GitHub a instalaci na NAS obsahuje `install.sh`, `uninstall.sh`, `build-release.sh`, adresáře `scripts/`, `docs/` a hotovou aplikaci v `src/`. Pro instalaci na NAS rozbalte celý projekt a v jeho kořeni spusťte `sudo sh install.sh`. Do `custom_apps` se kopíruje pouze běhový obsah `src/`, nikoliv dokumentace projektu a instalační skripty. Publisher následně provede vlastní kontrolu a sestaví distribuční archiv s kořenovým adresářem podle ID aplikace; zdejší zdrojový ZIP není přímo distribuční TAR.GZ.

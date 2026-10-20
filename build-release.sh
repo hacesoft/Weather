@@ -54,7 +54,7 @@ cp "$ROOT/CHANGELOG.md" "$APP/CHANGELOG.md"
 )
 SOURCE="$BUILD/hc_weather-$VERSION"
 mkdir -p "$SOURCE"
-(cd "$ROOT" && tar -cf - .gitignore LICENSE CHANGELOG.md CHANGELOG.cs.md README.md README_CZ.md install.sh uninstall.sh build-release.sh scripts tests docs assets src) | (cd "$SOURCE" && tar -xf -)
+(cd "$ROOT" && tar -cf - .gitignore LICENSE CHANGELOG.md CHANGELOG.cs.md README.md README_CZ.md install.sh uninstall.sh build-release.sh scripts tests docs src) | (cd "$SOURCE" && tar -xf -)
 (cd "$BUILD" && zip -qr "$RELEASE/hc_weather-$VERSION-full-source.zip" "hc_weather-$VERSION")
 rm -rf "$BUILD"
 echo "Built release/$APP_ID-$VERSION.tar.gz"

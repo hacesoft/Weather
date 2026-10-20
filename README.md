@@ -1,7 +1,5 @@
 [Česky](README_CZ.md) | **English**
 
-> **Publisher input archive:** This ZIP uses the final app-rooted format. NAS deployment helpers (`install.sh`, `uninstall.sh`, `build-release.sh`, `scripts/`) are not included. Any instructions referencing those files apply to the separate full-source GitHub repository, not this archive. The final signed App Store `.tar.gz` is produced by Hacesoft Publisher.
-
 
 # Weather for Nextcloud
 
@@ -38,7 +36,3 @@ Licensed under **AGPL-3.0-or-later**; see [LICENSE](LICENSE).
 [ALADIN](docs/en/ALADIN.md) · [Dashboard and Android widget](docs/en/ANDROID_WIDGET.md) · [Mobile layout](docs/en/MOBILE_LAYOUT.md)
 
 Storm potential is a model estimate. The warnings view is prepared for a separate provider and does not constitute an operational warning service.
-
-## Full source archive and Hacesoft Publisher
-
-This GitHub/NAS project contains install.sh, uninstall.sh, build-release.sh, scripts/, docs/ and the installable Nextcloud runtime in src/. For NAS installation, extract the entire project and run `sudo sh install.sh` from its root. Do not copy the project root or scripts/ directly into Nextcloud custom_apps; the installer deploys src/. Publisher independently validates this full-source input and builds its own app-ID-rooted, signed distribution archive.
