@@ -65,7 +65,7 @@ const fetch = async url => {
 const context = vm.createContext({window, document, fetch, console, setTimeout, clearTimeout,
     setInterval, clearInterval, Date, Math, URL, Uint8ClampedArray,
     OC: {generateUrl: input => input, requestToken: 'test'}});
-const bundle = fs.readFileSync(path.join(__dirname, '../src/js/app-1.0.0.js'), 'utf8');
+const bundle = fs.readFileSync(path.join(__dirname, '../src/js/app-1.0.1.js'), 'utf8');
 const code = bundle.replace(/\}\)\(\);\s*$/, 'window.__aladinTest={state,aladinFieldRequest,ensureAladinMap,renderAladinMapFrame,setAladinMetric,stopAladinPlay};\n})();');
 assert.notEqual(code, bundle, 'test hook inserted');
 vm.runInContext(code, context);

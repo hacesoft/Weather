@@ -3,7 +3,7 @@
 
 # Weather on the Android home screen
 
-Version 1.0.0 supplies an overview to the existing Dashboard widget in the Nextcloud Android app. The first data row, beside the current temperature, includes the server Weather app version that supplies the data. It does not require a separate Android app.
+Version 1.0.1 supplies an overview to the existing Dashboard widget in the Nextcloud Android app. The first data row, beside the current temperature, includes the server Weather app version that supplies the data. It does not require a separate Android app.
 
 ## Appearance
 
@@ -15,7 +15,7 @@ A manually configured place is used directly. When Weather is set to device loca
 
 ## Try it
 
-1. Install Weather 1.0.0 on Nextcloud with the Dashboard app enabled.
+1. Install Weather 1.0.1 on Nextcloud with the Dashboard app enabled.
 2. Sign in to the same instance with the Nextcloud Android app.
 3. Long press the home screen, choose Widgets, add the Nextcloud Dashboard widget, and select Weather in its configuration.
 4. Resize the widget to show more hours. Tapping a row opens the full Weather app.

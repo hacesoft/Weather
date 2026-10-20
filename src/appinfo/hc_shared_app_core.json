@@ -1,9 +1,9 @@
 {
   "contract": "hc-shared-app-core-v1",
-  "requiredVersion": "0.18.1",
-  "downloadUrl": "https://github.com/hacesoft/core/tree/HEAD/release",
+  "requiredVersion": "0.18.8",
+  "downloadUrl": "https://github.com/hacesoft/core/releases",
   "appId": "hc_weather",
-  "appVersion": "1.0.0",
+  "appVersion": "1.0.1",
   "repository": "https://github.com/hacesoft/Weather",
   "requiredApiVersion": 1
 }

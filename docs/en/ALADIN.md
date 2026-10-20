@@ -1,6 +1,6 @@
 [Česky](../cz/ALADIN.md) | **English**
 
-# ALADIN layer (Weather 1.0.0)
+# ALADIN layer (Weather 1.0.1)
 
 Enable **ALADIN** on the map. The timeline shows the next 48 hours of forecast. Select **Precipitation** or **Temperature**, and use ▶ to play the animation. The layer can overlap radar, wind, and storm potential. When comparing colors, hide the other layers if they obscure ALADIN.
 

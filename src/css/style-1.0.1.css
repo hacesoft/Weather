@@ -1,4 +1,4 @@
-/* HC Weather 1.0.0 – Shared App Core location follow + unified map UI */
+/* HC Weather 1.0.1 – Shared App Core location follow + unified map UI */
 .wp-app,.wp-app *,.wp-app *::before,.wp-app *::after{box-sizing:border-box}
 .wp-app{--wp-page-pad:clamp(8px,1.6vw,22px);--wp-vv-height:100dvh;--wp-vv-width:100vw;--wp-vv-top:0px;--wp-vv-left:0px;width:100%;max-width:none;min-width:0;min-height:0;height:calc(var(--wp-vv-height,100dvh) - 50px);max-height:calc(100dvh - 50px);overflow:auto;padding:max(var(--wp-page-pad),env(safe-area-inset-top)) max(var(--wp-page-pad),env(safe-area-inset-right)) max(calc(var(--wp-page-pad) + 18px),env(safe-area-inset-bottom)) max(var(--wp-page-pad),env(safe-area-inset-left));margin:0;scrollbar-gutter:stable;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .wp-app,.wp-app .wp-main,.wp-app .wp-view,.wp-app .wp-section,.wp-app .wp-card,.wp-app .wp-map-section,.wp-app .wp-forecast-board{min-width:0;min-height:0}

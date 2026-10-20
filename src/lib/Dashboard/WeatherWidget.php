@@ -32,8 +32,8 @@ class WeatherWidget implements IAPIWidget, IIconWidget {
     public function load(): void {
         // Preserve the graphical widget in Nextcloud's browser Dashboard.
         Util::addScript('hc_shared_app_core', 'hc_shared_app_core');
-        Util::addScript(Application::APP_ID, 'dashboard-1.0.0');
-        Util::addStyle(Application::APP_ID, 'style-1.0.0');
+        Util::addScript(Application::APP_ID, 'dashboard-1.0.1');
+        Util::addStyle(Application::APP_ID, 'style-1.0.1');
     }
 
     /** @return WidgetItem[] */

@@ -74,7 +74,7 @@ OC.L10N.register("hc_weather", {
   "Highest estimate in the next 24 h for the selected location": "Höchste Schätzung der nächsten 24 h am gewählten Ort",
   "Hourly detail": "Stündliche Details",
   "Hourly forecast": "Stündliche Vorhersage",
-  "Install and enable Shared App Core 0.18.1 or newer.": "Shared App Core 0.18.1 oder neuer installieren und aktivieren.",
+  "Install and enable Shared App Core 0.18.8 or newer.": "Shared App Core 0.18.8 oder neuer installieren und aktivieren.",
   "Interpolated map; forecast, not radar measurement.": "Interpolierte Karte; Vorhersage, keine Radarmessung.",
   "Last 2 hours · 10 min step": "Letzte 2 Stunden · 10-Minuten-Schritte",
   "Latitude": "Breitengrad",

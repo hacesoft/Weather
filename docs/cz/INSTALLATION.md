@@ -2,7 +2,7 @@
 
 # Instalace
 
-Vyžaduje Nextcloud 35, PHP 8.3 nebo novější a [Shared App Core 0.18.1 nebo novější](https://github.com/hacesoft/core). Zdrojový archiv obsahuje hotové soubory pro prohlížeč; na NASu se nespouští npm sestavení.
+Vyžaduje Nextcloud 35, PHP 8.3 nebo novější a [Shared App Core 0.18.8 nebo novější](https://github.com/hacesoft/core). Zdrojový archiv obsahuje hotové soubory pro prohlížeč; na NASu se nespouští npm sestavení.
 
 1. Nainstalujte a zapněte Core.
 2. Rozbalte archiv aplikace do samostatného pracovního adresáře na NASu.

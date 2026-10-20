@@ -1,12 +1,15 @@
 **Česky** | [English](README.md)
 
+> **Vstupní archiv pro Publisher:** Tento ZIP má výslednou strukturu s jediným kořenovým adresářem aplikace. Neobsahuje NAS nástroje (`install.sh`, `uninstall.sh`, `build-release.sh`, `scripts/`). Návody, které je zmiňují, platí pro samostatný úplný zdrojový repozitář, nikoli pro tento archiv. Podepsaný `.tar.gz` pro App Store vytváří až Hacesoft Publisher.
+
+
 # Počasí pro Nextcloud
 
-Verze **1.0.0** · Nextcloud **35** · PHP **8.3 nebo novější**
+Verze **1.0.1** · Nextcloud **35** · PHP **8.3 nebo novější**
 
 Aktuální počasí, hodinová a týdenní předpověď, východ a západ slunce, uložené polohy a mapa s radarem, větrem, bouřkovým potenciálem a předpovědí srážek/teploty CHMI ALADIN. Vrstvy lze kombinovat a přehrávat. Na mobilu se ovládání otevírá v malých plovoucích panelech. Widget přehledu Nextcloudu nabízí stručné informace a po kliknutí otevře aplikaci.
 
-Součást rodiny aplikací Hacesoft. **[Hacesoft Shared App Core](https://github.com/hacesoft/core) 0.18.1 nebo novější je povinná závislost.** Nejprve nainstalujte a zapněte Core. Poskytuje společný layout, mapové poskytovatele, mezipaměť a služby polohy.
+Součást rodiny aplikací Hacesoft. **[Hacesoft Shared App Core](https://github.com/hacesoft/core) 0.18.8 nebo novější je povinná závislost.** Nejprve nainstalujte a zapněte Core. Poskytuje společný layout, mapové poskytovatele, mezipaměť a služby polohy.
 
 ## Instalace
 
@@ -28,10 +31,14 @@ Instalátor aktualizuje aplikaci ve stávajícím Nextcloudu a vypíše původn�
 
 [Zdrojový repozitář](https://github.com/hacesoft/Weather) · [Hlášení chyb](https://github.com/hacesoft/Weather/issues) · [Shared App Core](https://github.com/hacesoft/core)
 
-Na GitHub zkopírujte **obsah** tohoto zdrojového adresáře přímo do kořene repozitáře, aby tam byly `README.md`, `README_CZ.md`, `src/`, instalační skripty a dokumentace. Verzi 1.0.0 určuje `src/appinfo/info.xml`. Adresář `release/` slouží pro vytvořené archivy. Příkaz `sh build-release.sh` zkontroluje jazyky a vytvoří aktuální runtime i úplný zdrojový archiv. Pro sestavení jsou potřeba Python 3, Node.js, zip a běžné shellové nástroje; při instalaci dodaného balíčku na server Nextcloudu tyto sestavovací nástroje nepotřebujete.
+Na GitHub zkopírujte **obsah** tohoto zdrojového adresáře přímo do kořene repozitáře, aby tam byly `README.md`, `README_CZ.md`, `src/`, instalační skripty a dokumentace. Verzi 1.0.1 určuje `src/appinfo/info.xml`. Adresář `release/` slouží pro vytvořené archivy. Příkaz `sh build-release.sh` zkontroluje jazyky a vytvoří aktuální runtime i úplný zdrojový archiv. Pro sestavení jsou potřeba Python 3, Node.js, zip a běžné shellové nástroje; při instalaci dodaného balíčku na server Nextcloudu tyto sestavovací nástroje nepotřebujete.
 
 Licence **AGPL-3.0-or-later**; viz [LICENSE](LICENSE).
 
 [ALADIN](docs/cz/ALADIN.md) · [Widget přehledu a Androidu](docs/cz/ANDROID_WIDGET.md) · [Mobilní rozložení](docs/cz/MOBILNI_LAYOUT.md)
 
 Bouřkový potenciál je odhad modelu. Zobrazení výstrah je připravené pro samostatného poskytovatele, zatím nejde o funkční výstražnou službu.
+
+## Úplný zdrojový balíček a Hacesoft Publisher
+
+Balíček pro GitHub a instalaci na NAS obsahuje `install.sh`, `uninstall.sh`, `build-release.sh`, adresáře `scripts/`, `docs/` a hotovou aplikaci v `src/`. Pro instalaci na NAS rozbalte celý projekt a v jeho kořeni spusťte `sudo sh install.sh`. Do `custom_apps` se kopíruje pouze běhový obsah `src/`, nikoliv dokumentace projektu a instalační skripty. Publisher následně provede vlastní kontrolu a sestaví distribuční archiv s kořenovým adresářem podle ID aplikace; zdejší zdrojový ZIP není přímo distribuční TAR.GZ.

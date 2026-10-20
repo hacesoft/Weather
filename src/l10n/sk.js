@@ -74,7 +74,7 @@ OC.L10N.register("hc_weather", {
   "Highest estimate in the next 24 h for the selected location": "Najvyšší odhad počas nasledujúcich 24 h pre zvolenú polohu",
   "Hourly detail": "Hodinový detail",
   "Hourly forecast": "Hodinová predpoveď",
-  "Install and enable Shared App Core 0.18.1 or newer.": "Nainštalujte a zapnite Shared App Core 0.18.1 alebo novší.",
+  "Install and enable Shared App Core 0.18.8 or newer.": "Nainštalujte a zapnite Shared App Core 0.18.8 alebo novší.",
   "Interpolated map; forecast, not radar measurement.": "Interpolovaná mapa; predpoveď, nie radarové meranie.",
   "Last 2 hours · 10 min step": "Posledné 2 hodiny · krok 10 min",
   "Latitude": "Zemepisná šírka",

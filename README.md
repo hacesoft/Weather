@@ -1,12 +1,15 @@
 [Česky](README_CZ.md) | **English**
 
+> **Publisher input archive:** This ZIP uses the final app-rooted format. NAS deployment helpers (`install.sh`, `uninstall.sh`, `build-release.sh`, `scripts/`) are not included. Any instructions referencing those files apply to the separate full-source GitHub repository, not this archive. The final signed App Store `.tar.gz` is produced by Hacesoft Publisher.
+
+
 # Weather for Nextcloud
 
-Version **1.0.0** · Nextcloud **35** · PHP **8.3 or newer**
+Version **1.0.1** · Nextcloud **35** · PHP **8.3 or newer**
 
 Current conditions, hourly and weekly forecasts, sunrise and sunset, saved locations and a map with radar, wind, storm potential and CHMI ALADIN precipitation/temperature forecasts. Layers can be combined and animated. Mobile controls open in compact floating panels. The Nextcloud Dashboard widget provides a compact overview and opens the application when selected.
 
-Part of the Hacesoft application family. **[Hacesoft Shared App Core](https://github.com/hacesoft/core) 0.18.1 or newer is a required dependency.** Install and enable Core before this application. Core provides the shared layout, map providers, cache and location services.
+Part of the Hacesoft application family. **[Hacesoft Shared App Core](https://github.com/hacesoft/core) 0.18.8 or newer is a required dependency.** Install and enable Core before this application. Core provides the shared layout, map providers, cache and location services.
 
 ## Installation
 
@@ -28,10 +31,14 @@ Czech (`cs`), English (`en`), German (`de`), Spanish (`es`), French (`fr`), Ital
 
 [Source repository](https://github.com/hacesoft/Weather) · [Issues](https://github.com/hacesoft/Weather/issues) · [Shared App Core](https://github.com/hacesoft/core)
 
-For GitHub, copy the **contents** of this source directory to the repository root, with `README.md`, `README_CZ.md`, `src/`, installation scripts and documentation at the top level. `src/appinfo/info.xml` declares version 1.0.0. `release/` is reserved for generated archives. Run `sh build-release.sh` to check the language catalogs and generate current runtime and full source archives. Maintainers need Python 3, Node.js, zip and standard shell tools; these build tools are not needed on the Nextcloud server to install the supplied package.
+For GitHub, copy the **contents** of this source directory to the repository root, with `README.md`, `README_CZ.md`, `src/`, installation scripts and documentation at the top level. `src/appinfo/info.xml` declares version 1.0.1. `release/` is reserved for generated archives. Run `sh build-release.sh` to check the language catalogs and generate current runtime and full source archives. Maintainers need Python 3, Node.js, zip and standard shell tools; these build tools are not needed on the Nextcloud server to install the supplied package.
 
 Licensed under **AGPL-3.0-or-later**; see [LICENSE](LICENSE).
 
 [ALADIN](docs/en/ALADIN.md) · [Dashboard and Android widget](docs/en/ANDROID_WIDGET.md) · [Mobile layout](docs/en/MOBILE_LAYOUT.md)
 
 Storm potential is a model estimate. The warnings view is prepared for a separate provider and does not constitute an operational warning service.
+
+## Full source archive and Hacesoft Publisher
+
+This GitHub/NAS project contains install.sh, uninstall.sh, build-release.sh, scripts/, docs/ and the installable Nextcloud runtime in src/. For NAS installation, extract the entire project and run `sudo sh install.sh` from its root. Do not copy the project root or scripts/ directly into Nextcloud custom_apps; the installer deploys src/. Publisher independently validates this full-source input and builds its own app-ID-rooted, signed distribution archive.

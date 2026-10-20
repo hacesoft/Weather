@@ -59,7 +59,7 @@ refresh_web_runtime(){
 }
 CORE_APP_ID="hc_shared_app_core"
 CORE_MANIFEST="$APP_DIR/appinfo/hc_shared_app_core.json"
-CORE_MIN_VERSION="0.18.1"
+CORE_MIN_VERSION="0.18.8"
 if [ -f "$CORE_MANIFEST" ]; then
   CORE_FROM_MANIFEST="$(sed -n 's/.*"requiredVersion"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$CORE_MANIFEST" | head -n 1)"
   [ -z "$CORE_FROM_MANIFEST" ] || CORE_MIN_VERSION="$CORE_FROM_MANIFEST"

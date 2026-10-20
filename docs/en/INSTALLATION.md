@@ -2,7 +2,7 @@
 
 # Installation
 
-Requires Nextcloud 35, PHP 8.3 or newer and [Shared App Core 0.18.1 or newer](https://github.com/hacesoft/core). The supplied full source archive contains prebuilt browser assets; there is no npm build step on the NAS.
+Requires Nextcloud 35, PHP 8.3 or newer and [Shared App Core 0.18.8 or newer](https://github.com/hacesoft/core). The supplied full source archive contains prebuilt browser assets; there is no npm build step on the NAS.
 
 1. Install and enable Core.
 2. Extract the application archive into a separate working directory on the NAS.

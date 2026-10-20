@@ -2,11 +2,11 @@
 'use strict';
 
 const APP='hc_weather';
-const BUILD='1.0.0';
+const BUILD='1.0.1';
 const WEATHER_APP_INFO=Object.freeze({
     id:'hc_weather',
     name:document.getElementById('wp-app')?.dataset.appName||'Weather',
-    version:'1.0.0',
+    version:'1.0.1',
     repository:'https://github.com/hacesoft/Weather',
     releaseNotes:'https://github.com/hacesoft/Weather/tree/HEAD/release',
     documentation:'https://github.com/hacesoft/Weather#readme'
@@ -16,7 +16,7 @@ let fnStartupCleanup=null;
 const $=id=>document.getElementById(id);
 
 function getAppRoot(){return document.getElementById('wp-app');}
-function requiredCoreVersion(){return getAppRoot()?.dataset.requiredCoreVersion||'0.18.1';}
+function requiredCoreVersion(){return getAppRoot()?.dataset.requiredCoreVersion||'0.18.8';}
 function requiredCoreApiVersion(){return Number(getAppRoot()?.dataset.requiredCoreApiVersion||1);}
 function showStartupError(oRoot,sTitle,sDetail){
     if(!oRoot)return;
@@ -1411,7 +1411,7 @@ async function startWeatherBootstrap(){
     if(!oRoot||oRoot.dataset.weatherMounted==='true')return;
     const oCore=window.HcSharedAppCore;
     if(!oCore){
-        showStartupError(oRoot,tr('Shared App Core is unavailable'),tr('Install and enable Shared App Core 0.18.1 or newer.'));
+        showStartupError(oRoot,tr('Shared App Core is unavailable'),tr('Install and enable Shared App Core 0.18.8 or newer.'));
         return;
     }
     try{

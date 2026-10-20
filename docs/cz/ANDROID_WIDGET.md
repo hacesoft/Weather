@@ -2,7 +2,7 @@
 
 # Počasí na ploše Androidu
 
-Verze 1.0.0 předává do widgetu aplikace Nextcloud přehled Počasí. Číslo verze serverové aplikace, která poskytuje data, je v prvním datovém řádku vedle aktuální teploty. Samostatnou aplikaci pro Android nepotřebujete.
+Verze 1.0.1 předává do widgetu aplikace Nextcloud přehled Počasí. Číslo verze serverové aplikace, která poskytuje data, je v prvním datovém řádku vedle aktuální teploty. Samostatnou aplikaci pro Android nepotřebujete.
 
 ## Zobrazení
 
@@ -14,7 +14,7 @@ Pro polohu nastavenou ručně používá widget dané místo. V režimu polohy z
 
 ## Jak vyzkoušet
 
-1. Nainstalujte Počasí 1.0.0 na Nextcloud se zapnutou aplikací Dashboard.
+1. Nainstalujte Počasí 1.0.1 na Nextcloud se zapnutou aplikací Dashboard.
 2. Na telefonu se přihlaste k téže instanci v aplikaci Nextcloud.
 3. Podržte prst na volném místě plochy, otevřete Widgety, zvolte widget aplikace Nextcloud a v jeho nastavení vyberte Počasí.
 4. Zvětšete widget, chcete-li vidět i další hodiny. Klepnutí na řádek otevře úplnou aplikaci.

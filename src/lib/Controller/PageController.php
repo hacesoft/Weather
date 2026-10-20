@@ -22,7 +22,7 @@ class PageController extends Controller {
     #[NoCSRFRequired]
     public function index(): TemplateResponse {
         $contract = json_decode((string)file_get_contents(__DIR__ . '/../../appinfo/hc_shared_app_core.json'), true, 512, JSON_THROW_ON_ERROR);
-        $requiredCoreVersion = (string)($contract['requiredVersion'] ?? '0.18.1');
+        $requiredCoreVersion = (string)($contract['requiredVersion'] ?? '0.18.8');
         $requiredCoreApiVersion = (int)($contract['requiredApiVersion'] ?? 1);
         $coreDownloadUrl = (string)($contract['downloadUrl'] ?? 'https://github.com/hacesoft/core/tree/HEAD/release');
 

@@ -1,6 +1,6 @@
 **Česky** | [English](../en/ALADIN.md)
 
-# Vrstva ALADIN (Počasí 1.0.0)
+# Vrstva ALADIN (Počasí 1.0.1)
 
 Na mapě zapněte **ALADIN**. Časová osa ukazuje předpověď na následujících 48 hodin. Tlačítky **Srážky** a **Teplota** volíte vykreslenou veličinu; ▶ spustí animaci. Vrstvu můžete zapnout současně s radarem, větrem i bouřkovým potenciálem. Při současném zapnutí se barvy překrývají, proto si při porovnávání někdy vypněte ostatní vrstvy.
 
